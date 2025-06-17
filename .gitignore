@@ -1,7 +1,7 @@
-# chứa các tiệp không cần thiết trong kho lưu trữ Git, không theo doi 1 cáchc ó chủ 
-db.sqlite3
-
-__pycache__/
-staticfiles/
-.env
-venv/
+# Chứa các tệp và thư mục không cần thiết trong kho lưu trữ Git, không cần theo dõi.
+db.sqlite3 # Cơ sở dữ liệu SQLite
+__pycache__/ # Thư mục chứa các tệp bytecode Python
+staticfiles/ # Thư mục chứa các tệp tĩnh được thu thập
+.env # Tệp biến môi trường
+venv/ # Môi trường ảo Python
+media/ # Thư mục chứa các tệp media (ảnh, tài liệu...) được người dùng tải lên
