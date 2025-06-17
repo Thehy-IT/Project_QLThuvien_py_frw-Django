@@ -14,28 +14,28 @@ import os
 from pathlib import Path
 from decouple import config
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
+# Đường dẫn gốc của dự án (tức là thư mục chứa manage.py)
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
+# Cài đặt phát triển nhanh - không phù hợp cho sản xuất
+# Xem https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
+# CẢNH BÁO BẢO MẬT: giữ khóa bí mật được sử dụng trong sản xuất bí mật!
 SECRET_KEY = config("SECRET_KEY", default='')
 
-# SECURITY WARNING: don't run with debug turned on in production!
+# CẢNH BÁO BẢO MẬT: không chạy với chế độ debug bật trong môi trường sản xuất!
 DEBUG = config("DEBUG", default=True)
 
 ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='').split(',')
 
+# Cấu hình cho Codespaces (nếu bạn đang sử dụng GitHub Codespaces)
 if 'CODESPACE_NAME' in os.environ:
     codespace_name = config("CODESPACE_NAME")
     codespace_domain = config("GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN")
     CSRF_TRUSTED_ORIGINS = [f'https://{codespace_name}-8000.{codespace_domain}']
 
-# Application definition
-
+# Định nghĩa ứng dụng
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
@@ -44,8 +44,10 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django_browser_reload",
+    "src.library", # Thêm ứng dụng library của bạn vào đây
 ]
 
+# Middleware xử lý các yêu cầu và phản hồi HTTP
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
@@ -57,14 +59,17 @@ MIDDLEWARE = [
     "django_browser_reload.middleware.BrowserReloadMiddleware",
 ]
 
+# Cho phép nhúng iframe từ nguồn này (quan trọng cho Codespaces)
 X_FRAME_OPTIONS = "ALLOW-FROM preview.app.github.dev"
 
-ROOT_URLCONF = "QLthuvien.urls"
+# URL gốc của dự án
+ROOT_URLCONF = "src.urls" # Đã thay đổi từ QLthuvien.urls sang src.urls
 
+# Cấu hình template
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [BASE_DIR / "QLthuvien" / "templates"],
+        "DIRS": [BASE_DIR / "src" / "templates"], # Điều chỉnh đường dẫn template
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -77,23 +82,22 @@ TEMPLATES = [
     },
 ]
 
+# Ứng dụng WSGI (Web Server Gateway Interface)
 WSGI_APPLICATION = "src.wsgi.application"
 
 
-# Database
+# Cấu hình cơ sở dữ liệu
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
-
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3", # Sử dụng SQLite làm cơ sở dữ liệu mặc định
     }
 }
 
 
-# Password validation
+# Xác thực mật khẩu
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
-
 AUTH_PASSWORD_VALIDATORS = [
     {
         "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
@@ -110,33 +114,31 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
-# Internationalization
+# Quốc tế hóa
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
+LANGUAGE_CODE = "en-us" # Ngôn ngữ mặc định
 
-LANGUAGE_CODE = "en-us"
+TIME_ZONE = "UTC" # Múi giờ
 
-TIME_ZONE = "UTC"
+USE_I18N = True # Hỗ trợ quốc tế hóa
 
-USE_I18N = True
-
-USE_TZ = True
+USE_TZ = True # Hỗ trợ múi giờ
 
 
-# Static files (CSS, JavaScript, Images)
+# Tệp tĩnh (CSS, JavaScript, Hình ảnh)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
-
 STATICFILES_DIRS = [
-    BASE_DIR / "QLthuvien" / "static",
+    BASE_DIR / "src" / "static", # Điều chỉnh đường dẫn cho các tệp tĩnh
 ]
 
-STATIC_URL = "static/"
-STATIC_ROOT = BASE_DIR / "QLthuvien" / "staticfiles"
+STATIC_URL = "static/" # URL cho các tệp tĩnh
+STATIC_ROOT = BASE_DIR / "staticfiles" # Thư mục để thu thập các tệp tĩnh (khi triển khai)
 
+# Cấu hình cho tệp media (upload của người dùng)
 MEDIA_URL = "media/"
-MEDIA_ROOT = BASE_DIR / "QLthuvien" / "media"
+MEDIA_ROOT = BASE_DIR / "media"
 
 
-# Default primary key field type
+# Loại khóa chính mặc định
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
-
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
