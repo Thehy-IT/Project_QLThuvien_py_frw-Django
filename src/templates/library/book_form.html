@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}{{ action }} Sách{% endblock %} {# Tiêu đề trang động #}
+
+{% block content %}
+<h2 class="text-2xl font-semibold mb-4">{{ action }} Sách</h2> {# Tiêu đề form động #}
+
+<form method="post" class="bg-white p-6 rounded-lg shadow-md">
+    {% csrf_token %} {# Thẻ bảo mật bắt buộc của Django #}
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {% for field in form %} {# Lặp qua từng trường trong form #}
+            <div class="mb-4">
+                <label for="{{ field.id_for_label }}" class="block text-gray-700 text-sm font-bold mb-2">{{ field.label }}:</label>
+                {{ field }} {# Hiển thị trường form #}
+                {% if field.help_text %} {# Hiển thị văn bản trợ giúp nếu có #}
+                    <p class="text-gray-600 text-xs italic">{{ field.help_text }}</p>
+                {% endif %}
+                {% for error in field.errors %} {# Hiển thị lỗi cho từng trường nếu có #}
+                    <p class="text-red-500 text-xs italic">{{ error }}</p>
+                {% endfor %}
+            </div>
+        {% endfor %}
+    </div>
+    <div class="flex justify-end mt-6">
+        {# Nút gửi form và nút hủy #}
+        <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">{{ action }}</button>
+        <a href="{% url 'book_list' %}" class="ml-4 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded">Hủy</a>
+    </div>
+</form>
+{% endblock %}

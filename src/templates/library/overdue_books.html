@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}Sách Đã Mượn Quá Hạn{% endblock %}
+
+{% block content %}
+<h2 class="text-2xl font-semibold mb-4">Sách Đã Mượn Quá Hạn</h2>
+
+<div class="overflow-x-auto">
+    <table class="min-w-full bg-white border border-gray-200">
+        <thead>
+            <tr>
+                <th class="py-2 px-4 border-b">Tên Sách</th>
+                <th class="py-2 px-4 border-b">Tên Thành viên</th>
+                <th class="py-2 px-4 border-b">Ngày Mượn</th>
+                <th class="py-2 px-4 border-b">Ngày Hết Hạn</th>
+                <th class="py-2 px-4 border-b">Thao tác</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for record in overdue_records %} {# Lặp qua danh sách các bản ghi quá hạn #}
+            <tr>
+                <td class="py-2 px-4 border-b">{{ record.book.title }}</td> {# Tên sách #}
+                <td class="py-2 px-4 border-b">{{ record.member.name }}</td> {# Tên thành viên mượn #}
+                <td class="py-2 px-4 border-b text-center">{{ record.borrow_date }}</td> {# Ngày mượn #}
+                <td class="py-2 px-4 border-b text-center">{{ record.due_date }}</td> {# Ngày hết hạn #}
+                <td class="py-2 px-4 border-b text-center">
+                    {# Nút trả sách #}
+                    <a href="{% url 'return_book' record.pk %}" class="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-3 rounded text-sm">Trả Sách</a>
+                </td>
+            </tr>
+            {% empty %} {# Nếu không có sách nào quá hạn #}
+            <tr>
+                <td colspan="5" class="py-4 text-center text-gray-500">Không có sách nào quá hạn.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

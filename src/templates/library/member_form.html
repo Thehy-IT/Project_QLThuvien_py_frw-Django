@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}{{ action }} Thành viên{% endblock %}
+
+{% block content %}
+<h2 class="text-2xl font-semibold mb-4">{{ action }} Thành viên</h2>
+
+<form method="post" class="bg-white p-6 rounded-lg shadow-md">
+    {% csrf_token %}
+    <div class="grid grid-cols-1 gap-4">
+        {% for field in form %}
+            <div class="mb-4">
+                <label for="{{ field.id_for_label }}" class="block text-gray-700 text-sm font-bold mb-2">{{ field.label }}:</label>
+                {{ field }}
+                {% if field.help_text %}
+                    <p class="text-gray-600 text-xs italic">{{ field.help_text }}</p>
+                {% endif %}
+                {% for error in field.errors %}
+                    <p class="text-red-500 text-xs italic">{{ error }}</p>
+                {% endfor %}
+            </div>
+        {% endfor %}
+    </div>
+    <div class="flex justify-end mt-6">
+        {# Nút gửi form và nút hủy #}
+        <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">{{ action }}</button>
+        <a href="{% url 'member_list' %}" class="ml-4 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded">Hủy</a>
+    </div>
+</form>
+{% endblock %}

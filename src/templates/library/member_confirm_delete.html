@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}Xác nhận xóa Thành viên{% endblock %}
+
+{% block content %}
+<h2 class="text-2xl font-semibold mb-4">Xác nhận xóa Thành viên</h2>
+
+<div class="bg-white p-6 rounded-lg shadow-md">
+    {# Thông báo xác nhận xóa thành viên #}
+    <p class="mb-4">Bạn có chắc chắn muốn xóa thành viên "{{ member.name }}" (ID: {{ member.member_id }}) không?</p>
+    <form method="post">
+        {% csrf_token %}
+        {# Nút xóa và nút hủy #}
+        <button type="submit" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Xóa</button>
+        <a href="{% url 'member_list' %}" class="ml-4 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded">Hủy</a>
+    </form>
+</div>
+{% endblock %}

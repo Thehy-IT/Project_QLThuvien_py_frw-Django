@@ -1,0 +1,59 @@
+{% extends "base.html" %} {# Kế thừa từ template base.html #}
+
+{% block title %}Danh sách Sách{% endblock %} {# Định nghĩa tiêu đề trang #}
+
+{% block content %} {# Khối nội dung chính của trang #}
+<h2 class="text-2xl font-semibold mb-4">Danh sách Sách</h2>
+
+<div class="flex justify-between items-center mb-4">
+    {# Nút thêm sách mới #}
+    <a href="{% url 'book_create' %}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Thêm Sách Mới</a>
+    {# Form tìm kiếm sách #}
+    <form action="{% url 'book_search' %}" method="get" class="flex">
+        <input type="text" name="q" placeholder="Tìm kiếm sách..." class="border p-2 rounded-l-md" value="{{ query }}">
+        <button type="submit" class="bg-gray-200 hover:bg-gray-300 p-2 rounded-r-md">Tìm kiếm</button>
+    </form>
+</div>
+
+<div class="overflow-x-auto">
+    <table class="min-w-full bg-white border border-gray-200">
+        <thead>
+            <tr>
+                <th class="py-2 px-4 border-b">ID Sách</th>
+                <th class="py-2 px-4 border-b">Tên Sách</th>
+                <th class="py-2 px-4 border-b">Tác Giả</th>
+                <th class="py-2 px-4 border-b">Số Trang</th>
+                <th class="py-2 px-4 border-b">Năm XB</th>
+                <th class="py-2 px-4 border-b">Trạng Thái</th>
+                <th class="py-2 px-4 border-b">Chủng Loại</th>
+                <th class="py-2 px-4 border-b">Thao tác</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for book in books %} {# Lặp qua danh sách sách #}
+            <tr>
+                <td class="py-2 px-4 border-b text-center">{{ book.book_id }}</td>
+                <td class="py-2 px-4 border-b">{{ book.title }}</td>
+                <td class="py-2 px-4 border-b">{{ book.author }}</td>
+                <td class="py-2 px-4 border-b text-center">{{ book.pages }}</td>
+                <td class="py-2 px-4 border-b text-center">{{ book.publication_year }}</td>
+                <td class="py-2 px-4 border-b text-center">
+                    {# Hiển thị trạng thái sách dựa trên giá trị số #}
+                    {% if book.status == 0 %}Có sẵn{% elif book.status == 1 %}Đã mượn{% else %}Khác{% endif %}
+                </td>
+                <td class="py-2 px-4 border-b text-center">{{ book.get_category_display }}</td> {# Hiển thị tên hiển thị của chủng loại #}
+                <td class="py-2 px-4 border-b text-center">
+                    {# Nút sửa và xóa sách #}
+                    <a href="{% url 'book_update' book.pk %}" class="text-yellow-600 hover:text-yellow-800 mr-2">Sửa</a>
+                    <a href="{% url 'book_delete' book.pk %}" class="text-red-600 hover:text-red-800">Xóa</a>
+                </td>
+            </tr>
+            {% empty %} {# Nếu không có sách nào #}
+            <tr>
+                <td colspan="8" class="py-4 text-center text-gray-500">Không có sách nào.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

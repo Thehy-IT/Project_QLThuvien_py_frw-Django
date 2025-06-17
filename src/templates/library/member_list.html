@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}Danh sách Thành viên{% endblock %}
+
+{% block content %}
+<h2 class="text-2xl font-semibold mb-4">Danh sách Thành viên</h2>
+
+<div class="flex justify-between items-center mb-4">
+    {# Nút thêm thành viên mới #}
+    <a href="{% url 'member_create' %}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Thêm Thành viên Mới</a>
+    {# Form tìm kiếm thành viên #}
+    <form action="{% url 'member_search' %}" method="get" class="flex">
+        <input type="text" name="q" placeholder="Tìm kiếm thành viên..." class="border p-2 rounded-l-md" value="{{ query }}">
+        <button type="submit" class="bg-gray-200 hover:bg-gray-300 p-2 rounded-r-md">Tìm kiếm</button>
+    </form>
+</div>
+
+<div class="overflow-x-auto">
+    <table class="min-w-full bg-white border border-gray-200">
+        <thead>
+            <tr>
+                <th class="py-2 px-4 border-b">ID Thành viên</th>
+                <th class="py-2 px-4 border-b">Tên Thành viên</th>
+                <th class="py-2 px-4 border-b">Thao tác</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for member in members %} {# Lặp qua danh sách thành viên #}
+            <tr>
+                <td class="py-2 px-4 border-b text-center">{{ member.member_id }}</td>
+                <td class="py-2 px-4 border-b">{{ member.name }}</td>
+                <td class="py-2 px-4 border-b text-center">
+                    {# Nút sửa và xóa thành viên #}
+                    <a href="{% url 'member_update' member.pk %}" class="text-yellow-600 hover:text-yellow-800 mr-2">Sửa</a>
+                    <a href="{% url 'member_delete' member.pk %}" class="text-red-600 hover:text-red-800">Xóa</a>
+                </td>
+            </tr>
+            {% empty %} {# Nếu không có thành viên nào #}
+            <tr>
+                <td colspan="3" class="py-4 text-center text-gray-500">Không có thành viên nào.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

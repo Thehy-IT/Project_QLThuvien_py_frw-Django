@@ -1,0 +1,38 @@
+{% load static %} {# Tải template tag để quản lý các tệp tĩnh #}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Library Management System{% endblock %}</title> {# Tiêu đề trang, có thể được ghi đè bởi các template con #}
+    <script src="https://cdn.tailwindcss.com"></script> {# Nhúng Tailwind CSS từ CDN #}
+    <link rel="stylesheet" href="{% static 'main.css' %}"> {# Liên kết đến tệp CSS tùy chỉnh của bạn #}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col">
+    <header class="bg-gray-800 text-white p-4">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-xl font-bold"><a href="{% url 'index' %}" class="text-white no-underline">Quản lý Thư viện</a></h1> {# Tiêu đề và liên kết về trang chủ #}
+            <nav>
+                <ul class="flex space-x-4">
+                    {# Các liên kết điều hướng chính #}
+                    <li><a href="{% url 'book_list' %}" class="hover:text-gray-300">Sách</a></li>
+                    <li><a href="{% url 'member_list' %}" class="hover:text-gray-300">Thành viên</a></li>
+                    <li><a href="{% url 'borrow_book' %}" class="hover:text-gray-300">Mượn sách</a></li>
+                    <li><a href="{% url 'overdue_books' %}" class="hover:text-gray-300">Sách quá hạn</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container mx-auto p-4 flex-grow">
+        {% block content %}{% endblock %} {# Khối nội dung chính, sẽ được điền bởi các template con #}
+    </main>
+
+    <footer class="bg-gray-800 text-white p-4 text-center mt-auto">
+        <p>&copy; 2024 Library Management System. All rights reserved.</p>
+    </footer>
+</body>
+</html>
