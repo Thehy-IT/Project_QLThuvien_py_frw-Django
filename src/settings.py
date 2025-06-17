@@ -77,7 +77,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = "QLthuvien.wsgi.application"
+WSGI_APPLICATION = "src.wsgi.application"
 
 
 # Database
