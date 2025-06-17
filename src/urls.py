@@ -1,5 +1,6 @@
 """
-URL configuration for hello_world project.
+Tệp này định nghĩa định tuyến URL cho dự án Django.
+URL configuration for QLthuvien project.
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/5.0/topics/http/urls/

@@ -1,4 +1,6 @@
+# chứa các tiệp không cần thiết trong kho lưu trữ Git, không theo doi 1 cáchc ó chủ 
 db.sqlite3
+
 __pycache__/
 staticfiles/
 .env

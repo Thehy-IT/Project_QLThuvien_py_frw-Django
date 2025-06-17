@@ -1,5 +1,4 @@
 //Tệp cấu hình Dev Container cho ứng dụng Django đơn giản"//
-
 {
   "image": "mcr.microsoft.com/devcontainers/universal:2",
   "hostRequirements": {
