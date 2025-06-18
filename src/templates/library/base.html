@@ -1,38 +1,52 @@
-{% load static %} {# Tải template tag để quản lý các tệp tĩnh #}
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Library Management System{% endblock %}</title> {# Tiêu đề trang, có thể được ghi đè bởi các template con #}
-    <script src="https://cdn.tailwindcss.com"></script> {# Nhúng Tailwind CSS từ CDN #}
-    <link rel="stylesheet" href="{% static 'main.css' %}"> {# Liên kết đến tệp CSS tùy chỉnh của bạn #}
+    <title>{% block title %}Library Management System{% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="{% static 'main.css' %}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    {# Font Awesome CDN for icons #}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
-<body class="bg-gray-100 min-h-screen flex flex-col">
-    <header class="bg-gray-800 text-white p-4">
-        <div class="container mx-auto flex justify-between items-center">
-            <h1 class="text-xl font-bold"><a href="{% url 'index' %}" class="text-white no-underline">Quản lý Thư viện</a></h1> {# Tiêu đề và liên kết về trang chủ #}
-            <nav>
-                <ul class="flex space-x-4">
-                    {# Các liên kết điều hướng chính #}
-                    <li><a href="{% url 'book_list' %}" class="hover:text-gray-300">Sách</a></li>
-                    <li><a href="{% url 'member_list' %}" class="hover:text-gray-300">Thành viên</a></li>
-                    <li><a href="{% url 'borrow_book' %}" class="hover:text-gray-300">Mượn sách</a></li>
-                    <li><a href="{% url 'overdue_books' %}" class="hover:text-gray-300">Sách quá hạn</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
+<body class="bg-gray-100 min-h-screen flex"> {# Changed from flex-col to flex for main layout #}
 
-    <main class="container mx-auto p-4 flex-grow">
-        {% block content %}{% endblock %} {# Khối nội dung chính, sẽ được điền bởi các template con #}
-    </main>
+    {% include 'library/sidebar.html' %} {# Nhúng sidebar vào đây #}
 
-    <footer class="bg-gray-800 text-white p-4 text-center mt-auto">
-        <p>&copy; 2024 Library Management System. All rights reserved.</p>
-    </footer>
+    <div class="flex-1 flex flex-col ml-64"> {# Main content wrapper, adjusted for sidebar width #}
+        <header class="bg-blue-600 text-white p-4 shadow-md flex justify-between items-center"> {# Header for main content #}
+            <h1 class="text-2xl font-semibold">
+                {# Tiêu đề có thể là tên trang hiện tại, hoặc bạn có thể bỏ đi nếu không cần #}
+                {% block header_title %}{% endblock %}
+            </h1>
+            {# Bạn có thể thêm các mục menu bên phải ở đây nếu cần, ví dụ: profile, logout #}
+            <div class="text-lg">
+                Hello, User! {# Ví dụ: Hiển thị tên người dùng đã đăng nhập #}
+                {# <a href="#" class="ml-4 hover:text-blue-200">Đăng xuất</a> #}
+            </div>
+        </header>
+
+        <main class="flex-grow container mx-auto p-6">
+            {% if messages %}
+                <div class="message-container mb-4">
+                    {% for message in messages %}
+                        <div class="message {{ message.tags }} p-3 rounded-md mb-2">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            {% block content %}{% endblock %}
+        </main>
+
+        <footer class="bg-gray-800 text-white p-4 text-center mt-auto shadow-inner">
+            <p class="text-sm">&copy; 2024 Library Management System. All rights reserved.</p>
+        </footer>
+    </div>
 </body>
 </html>

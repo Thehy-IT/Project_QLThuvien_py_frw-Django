@@ -1,48 +1,33 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Booktok Library</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    body {
-      font-family: 'Inter', sans-serif;
-    }
-    /* Custom scrollbar for webkit browsers */
-    ::-webkit-scrollbar {
-      width: 8px;
-      height: 8px;
-    }
-    ::-webkit-scrollbar-track {
-      background: rgba(241, 241, 241, 0.1); /* Light track for glassy look */
-      border-radius: 10px;
-    }
-    ::-webkit-scrollbar-thumb {
-      background: rgba(136, 136, 136, 0.5); /* Semi-transparent thumb */
-      border-radius: 10px;
-    }
-    ::-webkit-scrollbar-thumb:hover {
-      background: rgba(85, 85, 85, 0.7);
-    }
-    /* Ensure backdrop-filter works with tailwind if any custom config is minimal */
-    /* Usually not needed as it's core */
-  </style>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<script type="importmap">
-{
-  "imports": {
-    "react/": "https://esm.sh/react@^19.1.0/",
-    "react": "https://esm.sh/react@^19.1.0",
-    "react-dom/": "https://esm.sh/react-dom@^19.1.0/"
-  }
-}
-</script>
-</head>
-<body class="bg-gradient-to-br from-sky-100 via-indigo-100 to-pink-100 dark:from-slate-900 dark:via-purple-900 dark:to-slate-900">
-  <div id="root"></div>
-  <script type="module" src="/src/templates/index.tsx"></script>
-</body>
-</html>
+{% extends 'library/base.html' %} {# Kế thừa từ base.html để có cùng header và footer #}
+{% load static %} {# Tải template tag để quản lý các tệp tĩnh #}
+
+{% block title %}Chào mừng đến với Hệ thống Quản lý Thư viện{% endblock %} {# Đặt tiêu đề riêng cho trang này #}
+
+{% block content %}
+<div class="flex items-center justify-center min-h-[calc(100vh-160px)]"> {# Đảm bảo nội dung căn giữa và chiếm chiều cao còn lại của màn hình #}
+    <div class="bg-white p-8 rounded-lg shadow-xl text-center max-w-2xl w-full"> {# Nâng cấp shadow và bo tròn #}
+        <h2 class="text-4xl font-bold text-gray-800 mb-6">Chào mừng đến với Hệ thống Quản lý Thư viện</h2> {# Tiêu đề lớn hơn, nổi bật hơn #}
+        <p class="text-lg text-gray-600 mb-8">
+            Quản lý sách, thành viên và các giao dịch mượn/trả sách một cách hiệu quả.
+            Đây là nền tảng giúp bạn theo dõi tài nguyên thư viện của mình một cách dễ dàng.
+        </p>
+        <div class="flex flex-wrap justify-center gap-4"> {# Sử dụng flexbox và gap để căn giữa và tạo khoảng cách giữa các nút #}
+            <a href="{% url 'book_list' %}" class="btn btn-blue px-6 py-3 text-lg font-medium rounded-lg shadow-md hover:shadow-lg transition duration-200">
+                <i class="fas fa-book mr-2"></i> Xem Sách
+            </a>
+            <a href="{% url 'member_list' %}" class="btn btn-green px-6 py-3 text-lg font-medium rounded-lg shadow-md hover:shadow-lg transition duration-200">
+                <i class="fas fa-users mr-2"></i> Xem Thành viên
+            </a>
+            <a href="{% url 'borrow_book' %}" class="btn btn-gray px-6 py-3 text-lg font-medium rounded-lg shadow-md hover:shadow-lg transition duration-200">
+                <i class="fas fa-hand-holding-usd mr-2"></i> Mượn/Trả Sách
+            </a>
+            <a href="{% url 'overdue_books' %}" class="btn btn-red px-6 py-3 text-lg font-medium rounded-lg shadow-md hover:shadow-lg transition duration-200">
+                <i class="fas fa-exclamation-triangle mr-2"></i> Sách Quá Hạn
+            </a>
+        </div>
+        <p class="text-md text-gray-500 mt-8">
+            Bắt đầu khám phá các tính năng của hệ thống ngay bây giờ!
+        </p>
+    </div>
+</div>
+{% endblock content %}

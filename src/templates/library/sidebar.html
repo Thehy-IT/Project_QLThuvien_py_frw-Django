@@ -1,0 +1,41 @@
+{# src/templates/library/sidebar.html #}
+
+<aside class="w-64 bg-gray-800 text-white flex flex-col p-4 shadow-lg h-full fixed left-0 top-0">
+    <div class="text-2xl font-bold text-center mb-8 mt-4">
+        <a href="{% url 'index' %}" class="text-white hover:text-blue-300 no-underline">
+            Thư viện
+        </a>
+    </div>
+    <nav class="flex-grow">
+        <ul class="space-y-4">
+            <li>
+                <a href="{% url 'book_list' %}" class="flex items-center px-4 py-2 rounded-lg hover:bg-gray-700 transition duration-200">
+                    <i class="fas fa-book mr-3 text-lg"></i>
+                    <span class="text-lg">Sách</span>
+                </a>
+            </li>
+            <li>
+                <a href="{% url 'member_list' %}" class="flex items-center px-4 py-2 rounded-lg hover:bg-gray-700 transition duration-200">
+                    <i class="fas fa-users mr-3 text-lg"></i>
+                    <span class="text-lg">Thành viên</span>
+                </a>
+            </li>
+            <li>
+                <a href="{% url 'borrow_book' %}" class="flex items-center px-4 py-2 rounded-lg hover:bg-gray-700 transition duration-200">
+                    <i class="fas fa-hand-holding-usd mr-3 text-lg"></i>
+                    <span class="text-lg">Mượn sách</span>
+                </a>
+            </li>
+            <li>
+                <a href="{% url 'overdue_books' %}" class="flex items-center px-4 py-2 rounded-lg hover:bg-gray-700 transition duration-200">
+                    <i class="fas fa-exclamation-triangle mr-3 text-lg"></i>
+                    <span class="text-lg">Sách quá hạn</span>
+                </a>
+            </li>
+            {# Thêm các liên kết khác nếu cần #}
+        </ul>
+    </nav>
+    <div class="mt-auto text-center text-sm text-gray-400">
+        <p>&copy; 2024 LMS</p>
+    </div>
+</aside>
