@@ -1,0 +1,19 @@
+{% extends 'library/base.html' %}
+
+{% block title %}Đăng nhập{% endblock %}
+
+{% block content %}
+<div class="flex items-center justify-center min-h-[calc(100vh-160px)]">
+    <div class="bg-white p-8 rounded-lg shadow-xl text-center max-w-md w-full">
+        <h2 class="text-2xl font-bold text-gray-800 mb-6">Đăng nhập</h2>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-blue w-full">Đăng nhập</button>
+        </form>
+        <p class="mt-4 text-gray-600">
+            Bạn chưa có tài khoản? <a href="{% url 'register' %}" class="text-blue-500 hover:underline">Đăng ký ngay</a>.
+        </p>
+    </div>
+</div>
+{% endblock %}

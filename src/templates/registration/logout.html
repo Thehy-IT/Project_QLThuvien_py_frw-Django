@@ -1,0 +1,14 @@
+{% extends 'library/base.html' %}
+
+{% block title %}Đăng xuất{% endblock %}
+
+{% block content %}
+<div class="flex items-center justify-center min-h-[calc(100vh-160px)]">
+    <div class="bg-white p-8 rounded-lg shadow-xl text-center max-w-md w-full">
+        <h2 class="text-2xl font-bold text-gray-800 mb-6">Bạn đã đăng xuất</h2>
+        <p class="text-gray-600 mb-4">Cảm ơn bạn đã sử dụng dịch vụ của chúng tôi.</p>
+        <a href="{% url 'login' %}" class="btn btn-blue">Đăng nhập lại</a>
+        <a href="{% url 'index' %}" class="btn btn-gray ml-4">Về trang chủ</a>
+    </div>
+</div>
+{% endblock %}

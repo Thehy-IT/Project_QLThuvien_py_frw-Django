@@ -44,7 +44,8 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django_browser_reload",
-    "src.library", # Thêm ứng dụng library của bạn vào đây
+    "src.library",
+    "src.users",
 ]
 
 # Middleware xử lý các yêu cầu và phản hồi HTTP
@@ -142,3 +143,7 @@ MEDIA_ROOT = BASE_DIR / "media"
 # Loại khóa chính mặc định
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+# Cấu hình URL chuyển hướng sau khi đăng nhập và đăng xuất
+LOGIN_REDIRECT_URL = '/' # Chuyển hướng về trang chủ sau khi đăng nhập
+LOGOUT_REDIRECT_URL = '/' # Chuyển hướng về trang chủ sau khi đăng xuất

@@ -1,18 +1,20 @@
+# src/urls.py
+
 from django.contrib import admin
 from django.urls import path, include
 from src.core.views import index_view
-
-# Để phục vụ các tệp tĩnh trong môi trường phát triển
 from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', index_view, name='index'),
-    path('library/', include('src.library.urls')), # Bao gồm các URL của ứng dụng thư viện
-
-    # Thêm dòng này để django-browser-reload hoạt động
+    path('library/', include('src.library.urls')),
     path("__reload__/", include("django_browser_reload.urls")),
+    
+    # Thêm các URL xác thực của Django
+    path('accounts/', include('django.contrib.auth.urls')),
+    path('accounts/', include('src.users.urls')), # Thêm URL cho đăng ký
 ]
 
 if settings.DEBUG:
