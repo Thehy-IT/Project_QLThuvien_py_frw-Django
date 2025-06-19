@@ -32,7 +32,30 @@
                     <span class="text-lg">Sách quá hạn</span>
                 </a>
             </li>
-            {# Thêm các liên kết khác nếu cần #}
+            {# Thêm các liên kết đăng nhập/đăng ký/đăng xuất tại đây #}
+            {% if user.is_authenticated %} {# Kiểm tra xem người dùng đã đăng nhập chưa #}
+                <li>
+                    {# Hiển thị tên người dùng và liên kết đăng xuất nếu đã đăng nhập #}
+                    <a href="{% url 'logout' %}" class="flex items-center px-4 py-2 rounded-lg hover:bg-gray-700 transition duration-200">
+                        <i class="fas fa-sign-out-alt mr-3 text-lg"></i>
+                        <span class="text-lg">Đăng xuất ({{ user.username }})</span>
+                    </a>
+                </li>
+            {% else %} {# Hiển thị liên kết đăng nhập và đăng ký nếu chưa đăng nhập #}
+                <li>
+                    <a href="{% url 'login' %}" class="flex items-center px-4 py-2 rounded-lg hover:bg-gray-700 transition duration-200">
+                        <i class="fas fa-sign-in-alt mr-3 text-lg"></i>
+                        <span class="text-lg">Đăng nhập</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'register' %}" class="flex items-center px-4 py-2 rounded-lg hover:bg-gray-700 transition duration-200">
+                        <i class="fas fa-user-plus mr-3 text-lg"></i>
+                        <span class="text-lg">Đăng ký</span>
+                    </a>
+                </li>
+            {% endif %}
+            {# Kết thúc phần liên kết xác thực #}
         </ul>
     </nav>
     <div class="mt-auto text-center text-sm text-gray-400">
