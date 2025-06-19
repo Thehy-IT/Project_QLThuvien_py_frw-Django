@@ -1,31 +1,71 @@
 {% extends 'library/base.html' %} {# Kế thừa từ base.html để có cùng header và footer #}
-{% load static %} {# Tải template tag để quản lý các tệp tĩnh #}
+{% load static %} {# Tải template tag để quản lý các tệp tĩnh như CSS, JS #}
 
-{% block title %}Chào mừng đến với Hệ thống Quản lý Thư viện{% endblock %} {# Đặt tiêu đề riêng cho trang này #}
+{% block title %}Chào mừng đến với Hệ thống Quản lý Thư viện{% endblock %} {# Đặt tiêu đề riêng cho trang này, xuất hiện trên tab trình duyệt #}
 
-{% block content %}
-<div class="flex items-center justify-center min-h-[calc(100vh-160px)]"> {# Đảm bảo nội dung căn giữa và chiếm chiều cao còn lại của màn hình #}
-    <div class="bg-white p-8 rounded-lg shadow-xl text-center max-w-2xl w-full"> {# Nâng cấp shadow và bo tròn #}
-        <h2 class="text-4xl font-bold text-gray-800 mb-6">Chào mừng đến với Hệ thống Quản lý Thư viện</h2> {# Tiêu đề lớn hơn, nổi bật hơn #}
-        <p class="text-lg text-gray-600 mb-8">
+{% block content %} {# Khối nội dung chính của trang #}
+<div class="flex items-center justify-center min-h-[calc(100vh-160px)]"> {# Sử dụng flexbox để căn giữa nội dung theo chiều dọc và ngang, min-h để chiếm phần lớn chiều cao màn hình #}
+    <div class="bg-white p-8 rounded-lg shadow-xl text-center max-w-4xl w-full"> {# Tạo một khung chứa nội dung với nền trắng, padding, bo tròn góc, đổ bóng và giới hạn chiều rộng #}
+        <h2 class="text-4xl font-bold text-gray-800 mb-8">Chào mừng đến với Hệ thống Quản lý Thư viện</h2> {# Tiêu đề chính của trang chủ, font lớn, đậm, màu xám đậm #}
+        <p class="text-lg text-gray-600 mb-8"> {# Đoạn văn giới thiệu hệ thống #}
             Quản lý sách, thành viên và các giao dịch mượn/trả sách một cách hiệu quả.
             Đây là nền tảng giúp bạn theo dõi tài nguyên thư viện của mình một cách dễ dàng.
         </p>
-        <div class="flex flex-wrap justify-center gap-4"> {# Sử dụng flexbox và gap để căn giữa và tạo khoảng cách giữa các nút #}
-            <a href="{% url 'book_list' %}" class="btn btn-blue px-6 py-3 text-lg font-medium rounded-lg shadow-md hover:shadow-lg transition duration-200">
-                <i class="fas fa-book mr-2"></i> Xem Sách
+
+        {# Summary Statistics Section - Phần thống kê tổng kết #}
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10"> {# Sử dụng CSS Grid để tạo layout đáp ứng: 1 cột trên mobile, 2 cột trên tablet, 4 cột trên desktop #}
+            {# Thẻ hiển thị Tổng số Sách #}
+            <div class="bg-blue-100 p-5 rounded-lg shadow-md flex flex-col items-center justify-center"> {# Nền xanh nhạt, padding, bo tròn, đổ bóng, căn giữa nội dung #}
+                <i class="fas fa-book text-4xl text-blue-600 mb-3"></i> {# Icon sách từ Font Awesome, kích thước lớn, màu xanh #}
+                <h3 class="text-xl font-semibold text-gray-700">Tổng số Sách</h3> {# Tiêu đề nhỏ hơn cho số liệu #}
+                <p class="text-3xl font-bold text-blue-800 mt-2">{{ total_books }}</p> {# Hiển thị số liệu tổng số sách, lấy từ context của Django view #}
+            </div>
+            
+            {# Thẻ hiển thị Sách đã Mượn #}
+            <div class="bg-green-100 p-5 rounded-lg shadow-md flex flex-col items-center justify-center">
+                <i class="fas fa-hand-holding-usd text-4xl text-green-600 mb-3"></i> {# Icon mượn trả, màu xanh lá cây #}
+                <h3 class="text-xl font-semibold text-gray-700">Sách đã Mượn</h3>
+                <p class="text-3xl font-bold text-green-800 mt-2">{{ borrowed_books }}</p> {# Hiển thị số sách đã mượn #}
+            </div>
+            
+            {# Thẻ hiển thị Tổng số Thành viên #}
+            <div class="bg-purple-100 p-5 rounded-lg shadow-md flex flex-col items-center justify-center">
+                <i class="fas fa-users text-4xl text-purple-600 mb-3"></i> {# Icon người dùng, màu tím #}
+                <h3 class="text-xl font-semibold text-gray-700">Tổng số Thành viên</h3>
+                <p class="text-3xl font-bold text-purple-800 mt-2">{{ total_members }}</p> {# Hiển thị tổng số thành viên #}
+            </div>
+            
+            {# Thẻ hiển thị Sách quá hạn #}
+            <div class="bg-red-100 p-5 rounded-lg shadow-md flex flex-col items-center justify-center">
+                <i class="fas fa-exclamation-triangle text-4xl text-red-600 mb-3"></i> {# Icon cảnh báo, màu đỏ #}
+                <h3 class="text-xl font-semibold text-gray-700">Sách quá hạn</h3>
+                <p class="text-3xl font-bold text-red-800 mt-2">{{ overdue_books_count }}</p> {# Hiển thị số sách quá hạn #}
+            </div>
+        </div>
+
+        {# Quick Actions Section - Phần tiện ích nhanh #}
+        <h3 class="text-2xl font-bold text-gray-800 mb-6">Tiện ích nhanh</h3> {# Tiêu đề cho phần tiện ích nhanh #}
+        <div class="flex flex-wrap justify-center gap-4"> {# Sử dụng flexbox để các nút căn giữa và có khoảng cách đều #}
+            {# Nút Quản lý Sách #}
+            <a href="{% url 'book_list' %}" class="btn btn-blue px-6 py-3 text-lg font-medium rounded-lg shadow-md hover:shadow-lg transition duration-200"> {# Link đến trang danh sách sách, nút màu xanh #}
+                <i class="fas fa-book mr-2"></i> Quản lý Sách
             </a>
-            <a href="{% url 'member_list' %}" class="btn btn-green px-6 py-3 text-lg font-medium rounded-lg shadow-md hover:shadow-lg transition duration-200">
-                <i class="fas fa-users mr-2"></i> Xem Thành viên
+            {# Nút Quản lý Thành viên #}
+            <a href="{% url 'member_list' %}" class="btn btn-green px-6 py-3 text-lg font-medium rounded-lg shadow-md hover:shadow-lg transition duration-200"> {# Link đến trang danh sách thành viên, nút màu xanh lá #}
+                <i class="fas fa-users mr-2"></i> Quản lý Thành viên
             </a>
-            <a href="{% url 'borrow_book' %}" class="btn btn-gray px-6 py-3 text-lg font-medium rounded-lg shadow-md hover:shadow-lg transition duration-200">
-                <i class="fas fa-hand-holding-usd mr-2"></i> Mượn/Trả Sách
+            {# Nút Mượn Sách #}
+            <a href="{% url 'borrow_book' %}" class="btn btn-gray px-6 py-3 text-lg font-medium rounded-lg shadow-md hover:shadow-lg transition duration-200"> {# Link đến trang mượn sách, nút màu xám #}
+                <i class="fas fa-hand-holding-usd mr-2"></i> Mượn Sách
             </a>
-            <a href="{% url 'overdue_books' %}" class="btn btn-red px-6 py-3 text-lg font-medium rounded-lg shadow-md hover:shadow-lg transition duration-200">
+            {# Nút Sách Quá Hạn #}
+            <a href="{% url 'overdue_books' %}" class="btn btn-red px-6 py-3 text-lg font-medium rounded-lg shadow-md hover:shadow-lg transition duration-200"> {# Link đến trang sách quá hạn, nút màu đỏ #}
                 <i class="fas fa-exclamation-triangle mr-2"></i> Sách Quá Hạn
             </a>
+            {# Bạn có thể thêm các nút tiện ích nhanh khác tại đây nếu cần #}
         </div>
-        <p class="text-md text-gray-500 mt-8">
+
+        <p class="text-md text-gray-500 mt-8"> {# Đoạn văn kết thúc #}
             Bắt đầu khám phá các tính năng của hệ thống ngay bây giờ!
         </p>
     </div>
