@@ -11,10 +11,6 @@ urlpatterns = [
     path('', index_view, name='index'),
     path('library/', include('src.library.urls')),
     path("__reload__/", include("django_browser_reload.urls")),
-    
-    # Thêm các URL xác thực của Django
-    path('accounts/', include('django.contrib.auth.urls')),
-    path('accounts/', include('src.users.urls')), # Thêm URL cho đăng ký
 ]
 
 if settings.DEBUG:
