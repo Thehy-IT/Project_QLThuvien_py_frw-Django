@@ -48,3 +48,7 @@ python manage.py collectstatic
 ```python
 python manage.py runserver
 ```
+## Liên hệ:
+- Người thực hiện dự án: Huỳnh thế Hy
+- Lớp: ...
+- Thời gian học: Sinh viên năm 2
