@@ -1,14 +1,13 @@
-#!/usr/bin/env python
-#tiện ích dòng lệnh của Django cho các tác vụ quản trị.
 """Django's command-line utility for administrative tasks."""
-import os
-import sys
+import os # quản lý biên smooi trường
+import sys # quản lý hệ thống, cho phép truy cập vào các đối tượng và hàm của hệ thống
 
 
 def main():
     """Run administrative tasks."""
+    # Thiết lập biến môi trường để Django biết nơi tìm kiếm cài đặt
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "src.settings")
-    try:
+    try:# thử import Django và kiểm tra thông báo.
         from django.core.management import execute_from_command_line
     except ImportError as exc:
         raise ImportError(
