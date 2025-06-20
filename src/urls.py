@@ -1,4 +1,4 @@
-# Tệp định tuyến chính của ứng dụng Django
+# Tệp định tuyến chính của ứng dụng QLthuvien <frameword Django>
 from django.contrib import admin
 from django.urls import path, include
 from src.core.views import index_view
