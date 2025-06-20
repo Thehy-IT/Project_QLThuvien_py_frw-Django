@@ -1,12 +1,12 @@
 {% extends 'library/base.html' %} {# Kế thừa từ base.html để có cùng header và footer #}
 {% load static %} {# Tải template tag để quản lý các tệp tĩnh như CSS, JS #}
 
-{% block title %}Chào mừng đến với Hệ thống Quản lý Thư viện{% endblock %} {# Đặt tiêu đề riêng cho trang này, xuất hiện trên tab trình duyệt #}
+{% block title %}Thư Viện Sách-Kí Ức Số{% endblock %} {# Đặt tiêu đề riêng cho trang này, xuất hiện trên tab trình duyệt #}
 
 {% block content %} {# Khối nội dung chính của trang #}
 <div class="flex items-center justify-center min-h-[calc(100vh-160px)]"> {# Sử dụng flexbox để căn giữa nội dung theo chiều dọc và ngang, min-h để chiếm phần lớn chiều cao màn hình #}
     <div class="bg-white p-8 rounded-lg shadow-xl text-center max-w-4xl w-full"> {# Tạo một khung chứa nội dung với nền trắng, padding, bo tròn góc, đổ bóng và giới hạn chiều rộng #}
-        <h2 class="text-4xl font-bold text-gray-800 mb-8">Chào mừng đến với Hệ thống Quản lý Thư viện</h2> {# Tiêu đề chính của trang chủ, font lớn, đậm, màu xám đậm #}
+        <h2 class="text-4xl font-bold text-gray-800 mb-8">Welcome to the Booktok Library</h2> {# Tiêu đề chính của trang chủ, font lớn, đậm, màu xám đậm #}
         <p class="text-lg text-gray-600 mb-8"> {# Đoạn văn giới thiệu hệ thống #}
             Quản lý sách, thành viên và các giao dịch mượn/trả sách một cách hiệu quả.
             Đây là nền tảng giúp bạn theo dõi tài nguyên thư viện của mình một cách dễ dàng.

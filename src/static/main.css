@@ -1,13 +1,17 @@
 /* Base styles for a clean, modern look, inspired by Google's design principles */
 body {
-    margin: 0;
-    font-family: 'Inter', sans-serif; /* Using Inter from Google Fonts, as seen in index.html */
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    background-color: #f8f9fa; /* Light gray background, typical for clean UIs */
-    color: #343a40; /* Dark gray for primary text */
-}
+  /* background-color: #f2f2f2; */ /* Dòng này có thể bị xóa hoặc giữ lại làm màu nền dự phòng */
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
 
+  /* Thêm các thuộc tính sau để đặt ảnh nền */
+  background-image: url('images/bg1.jpg');
+  background-size: cover; /* Đảm bảo ảnh nền bao phủ toàn bộ trang */
+  background-repeat: no-repeat; /* Ngăn ảnh nền lặp lại */
+  background-position: center; /* Căn giữa ảnh nền */
+  background-attachment: fixed; /* Giữ ảnh nền cố định khi cuộn trang */
+}
 /* General Link Styling */
 a {
     color: #007bff; /* A standard blue for links */
