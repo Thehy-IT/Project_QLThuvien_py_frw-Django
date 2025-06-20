@@ -30,7 +30,7 @@
 - Mượn sách, trả sách
 - Hiển thị danh sách các cuốn sách đã mượn quá hạn (kèm thông tin người mượn)
 
-
+# Hướng dẫn RunApp
 ## installing dependancies
 
 ```python
@@ -48,6 +48,6 @@ python manage.py collectstatic
 ```python
 python manage.py runserver
 ```
-## Liên hệ:
-- Sinh viên thực hiện: Huỳnh Thế Hy
-- Người hiện: Sinh viên năm 2
+## Thực hiện bởi:
+- Sinh viên: Huỳnh Thế Hy
+- Năm học: 2024-2025 <năm 2>
