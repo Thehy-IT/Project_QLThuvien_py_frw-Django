@@ -18,7 +18,7 @@ from decouple import config
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-# Cài đặt phát triển nhanh - không phù hợp cho sản xuất
+# Cài đặt phát triển nhanh - không phù hợp cho production
 # Xem https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # CẢNH BÁO BẢO MẬT: giữ khóa bí mật được sử dụng trong sản xuất bí mật!
