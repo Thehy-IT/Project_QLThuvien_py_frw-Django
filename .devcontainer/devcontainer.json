@@ -1,31 +1,34 @@
-//Tệp cấu hình Dev Container cho ứng dụng Django đơn giản"//
+//Tạo môi trường lập trình Django sẵn sàng sử dụng bên trong Dev Container (trong VSCode), tự động cài dependency
+// , chạy lệnh migrate DB, và khởi động server Django khi container được mở.
 {
-  "image": "mcr.microsoft.com/devcontainers/universal:2",// Sử dụng hình ảnh Dev Container cơ bản
+  "image": "mcr.microsoft.com/devcontainers/universal:2",//Dùng container nền đã cài sẵn Python & dev tools để đỡ cài tay.
   "hostRequirements": {
     "cpus": 4// Số lượng CPU tối thiểu
   },
   "waitFor": "onCreateCommand",// Chờ lệnh khởi tạo hoàn thành
   "updateContentCommand": "pip install -r requirements.txt && python manage.py migrate",// Cập nhật nội dung và cài đặt phụ thuộc
-  "postCreateCommand": "cp .env.example .env",
-  "postAttachCommand": {
+  "postCreateCommand": "cp .env.example .env",// Sao chép tệp cấu hình môi trường mẫu
+  "postAttachCommand": {// Chạy lệnh sau khi kết nối vào container
     "server": "python manage.py runserver"
   },
+  // Cấu hình môi trường làm việc
   "customizations": {
     "codespaces": {
       "openFiles": [
-        "src/templates/index.html"
+        "src/templates/index.html"// Mở tệp HTML mẫu khi khởi động
       ]
     },
     "vscode": {
-      "extensions": [
+      "extensions": [// tự động Cài đặt các tiện ích mở rộng cần thiết
         "ms-python.python"
       ]
     }
   },
+  // Cấu hình cổng để tự động chuyển tiếp
   "portsAttributes": {
     "8000": {
       "label": "Application",
-      "onAutoForward": "openPreview"
+      "onAutoForward": "openPreview" // Mở xem trước ứng dụng khi cổng được chuyển tiếp
     }
   },
   "forwardPorts": [8000]
