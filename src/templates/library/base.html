@@ -1,41 +1,70 @@
 {% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Library Management System{% endblock %}</title>
+
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Alpine.js for toggle interaction -->
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+
+    <!-- Custom CSS -->
     <link rel="stylesheet" href="{% static 'main.css' %}">
+
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    {# Font Awesome CDN for icons #}
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
-<body class="bg-gray-100 min-h-screen flex"> {# Changed from flex-col to flex for main layout #}
 
-    {% include 'library/sidebar.html' %} {# Nhúng sidebar vào đây #}
+<body class="bg-gray-100 min-h-screen font-[Inter] text-gray-800" x-data="{ sidebarOpen: false }">
+    <!-- Wrapper dùng AlpineJS để toggle sidebar -->
+    <div class="flex min-h-screen">
 
-    <div class="flex-1 flex flex-col ml-64"> {# Main content wrapper, adjusted for sidebar width #}
+        <!-- SIDEBAR (nhúng file sidebar.html) -->
+        {% include 'library/sidebar.html' %}
 
-        <main class="flex-grow container mx-auto p-6">
-            {% if messages %}
-                <div class="message-container mb-4">
-                    {% for message in messages %}
-                        <div class="message {{ message.tags }} p-3 rounded-md mb-2">
-                            {{ message }}
-                        </div>
-                    {% endfor %}
-                </div>
-            {% endif %}
+        <!-- MAIN CONTENT -->
+        <div class="flex-1 flex flex-col md:ml-64">
 
-            {% block content %}{% endblock %}
-        </main>
+            <!-- MOBILE HEADER: Nút mở sidebar -->
+            <div class="md:hidden flex items-center justify-between bg-blue-700 text-white p-4 shadow-md">
+                <button @click="sidebarOpen = !sidebarOpen" class="focus:outline-none">
+                    <i class="fas fa-bars text-2xl"></i>
+                </button>
+                <h1 class="text-lg font-semibold">Booktok Library</h1>
+            </div>
 
-        <footer class="bg-gray-800 text-white p-4 text-center mt-auto shadow-inner">
-            <p class="text-sm">&copy;  Library Management System. All rights reserved.</p>
-        </footer>
+            <!-- NỘI DUNG CHÍNH -->
+            <main class="flex-grow container mx-auto p-6">
+                {% if messages %}
+                    <div class="space-y-2 mb-4">
+                        {% for message in messages %}
+                            <div class="p-3 rounded-md {{ message.tags }} bg-white shadow-md border-l-4 border-blue-500">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+                {% block content %}{% endblock %}
+            </main>
+
+            <!-- FOOTER -->
+            <footer class="bg-gray-800 text-white p-4 text-center shadow-inner">
+                <p class="text-sm tracking-wide">&copy; 2025 Library Management System. All rights reserved.</p>
+            </footer>
+        </div>
     </div>
 </body>
+
 </html>
