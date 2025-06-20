@@ -1,6 +1,11 @@
-/* eslint-env worker */
+/* Là 1 Web Worker script dùng để kết nối tới server Django (qua EventSource)
+để lắng nghe sự thay đổi (hot reload). Khi có thay đổi (code mới), 
+nó sẽ bắn tín hiệu về lại tab trình duyệt để reload tự động.
+ */
+// reload-worker.js
 'use strict'
 
+// Biến lưu đường dẫn đến server, cổng giao tiếp, ID phiên bản hiện tại, và kết nối EventSource.
 let eventsPath = null
 let port = null
 let currentVersionId = null
@@ -16,6 +21,9 @@ addEventListener('connect', (event) => {
   port.start()
 })
 
+/* Khi nhận được thông điệp từ tab trình duyệt, nếu là thông điệp khởi tạo,
+nó sẽ kiểm tra đường dẫn sự kiện (eventsPath). Nếu khác với đường dẫn hiện tại,
+nó sẽ đóng kết nối EventSource cũ (nếu có) và thiết lập lại */
 const receiveMessage = (event) => {
   if (event.data.type === 'initialize') {
     const givenEventsPath = event.data.eventsPath

@@ -1,5 +1,5 @@
-//Tạo môi trường lập trình Django sẵn sàng sử dụng bên trong Dev Container (trong VSCode), tự động cài dependency
-// , chạy lệnh migrate DB, và khởi động server Django khi container được mở.
+/* Tạo môi trường lập trình Django sẵn sàng sử dụng bên trong Dev Container (trong VSCode), 
+tự động cài dependency, chạy lệnh migrate DB, và khởi động server Django khi container được mở. */
 {
   "image": "mcr.microsoft.com/devcontainers/universal:2",//Dùng container nền đã cài sẵn Python & dev tools để đỡ cài tay.
   "hostRequirements": {
