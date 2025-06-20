@@ -36,14 +36,6 @@
         <!-- MAIN CONTENT -->
         <div class="flex-1 flex flex-col md:ml-64">
 
-            <!-- MOBILE HEADER: Nút mở sidebar -->
-            <div class="md:hidden flex items-center justify-between bg-blue-700 text-white p-4 shadow-md">
-                <button @click="sidebarOpen = !sidebarOpen" class="focus:outline-none">
-                    <i class="fas fa-bars text-2xl"></i>
-                </button>
-                <h1 class="text-lg font-semibold">Booktok Library</h1>
-            </div>
-
             <!-- NỘI DUNG CHÍNH -->
             <main class="flex-grow container mx-auto p-6">
                 {% if messages %}
