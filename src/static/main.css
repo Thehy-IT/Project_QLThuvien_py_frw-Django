@@ -1,5 +1,3 @@
-/* src/static/main.css */
-
 /* Base styles for a clean, modern look, inspired by Google's design principles */
 body {
     margin: 0;
@@ -18,8 +16,8 @@ a {
 }
 
 a:hover {
-    color: #0056b3;
-    text-decoration: underline;
+    color: inherit;
+    text-decoration: inherit;
 }
 
 /* Headings */

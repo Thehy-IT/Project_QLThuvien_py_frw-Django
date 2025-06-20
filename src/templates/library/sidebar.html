@@ -1,64 +1,86 @@
-{# src/templates/library/sidebar.html #}
+<!-- BẮT ĐẦU SIDEBAR -->
+<aside class="w-64 bg-gradient-to-b from-blue-500 to-blue-800 text-white flex flex-col p-4 h-screen fixed left-0 top-0 shadow-lg z-1000">
+    <!-- Sidebar cố định bên trái, full chiều cao, đổ bóng, nền gradient -->
 
-<aside class="w-64 bg-gray-800 text-white flex flex-col p-4 shadow-lg h-full fixed left-0 top-0">
-    <div class="text-2xl font-bold text-center mb-8 mt-4">
-        <a href="{% url 'index' %}" class="text-white hover:text-blue-300 no-underline">
-            Thư viện
-        </a>
+    <!-- TIÊU ĐỀ / LOGO -->
+    <div class="text-2xl font-extrabold text-center mb-8 mt-6 tracking-wide">
+        <a href="{% url 'index' %}" class="hover:opacity-80 transition duration-300">Booktok Library</a>
     </div>
+
+    <!-- NAVIGATION CHÍNH -->
     <nav class="flex-grow">
-        <ul class="space-y-4">
+        <ul class="space-y-3">
+            <hr class="border-white-500">
+
             <li>
-                <a href="{% url 'book_list' %}" class="flex items-center px-4 py-2 rounded-lg hover:bg-gray-700 transition duration-200">
+                <a href="{% url 'index' %}" class="flex items-center px-4 py-2 rounded-md hover:bg-blue-900 hover:pl-6 transition-all duration-300">
+                    <i class="fas fa-home mr-3 text-lg"></i>
+                    <span class="text-base">Trang chủ</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="{% url 'book_list' %}" class="flex items-center px-4 py-2 rounded-md hover:bg-blue-900 hover:pl-6 transition-all duration-300">
                     <i class="fas fa-book mr-3 text-lg"></i>
-                    <span class="text-lg">Sách</span>
+                    <span class="text-base">Sách</span>
                 </a>
             </li>
+
             <li>
-                <a href="{% url 'member_list' %}" class="flex items-center px-4 py-2 rounded-lg hover:bg-gray-700 transition duration-200">
+                <a href="{% url 'member_list' %}" class="flex items-center px-4 py-2 rounded-md hover:bg-blue-900 hover:pl-6 transition-all duration-300">
                     <i class="fas fa-users mr-3 text-lg"></i>
-                    <span class="text-lg">Thành viên</span>
+                    <span class="text-base">Thành viên</span>
                 </a>
             </li>
+
             <li>
-                <a href="{% url 'borrow_book' %}" class="flex items-center px-4 py-2 rounded-lg hover:bg-gray-700 transition duration-200">
+                <a href="{% url 'borrow_book' %}" class="flex items-center px-4 py-2 rounded-md hover:bg-blue-900 hover:pl-6 transition-all duration-300">
                     <i class="fas fa-hand-holding-usd mr-3 text-lg"></i>
-                    <span class="text-lg">Mượn sách</span>
+                    <span class="text-base">Mượn sách</span>
                 </a>
             </li>
+
             <li>
-                <a href="{% url 'overdue_books' %}" class="flex items-center px-4 py-2 rounded-lg hover:bg-gray-700 transition duration-200">
+                <a href="{% url 'overdue_books' %}" class="flex items-center px-4 py-2 rounded-md hover:bg-blue-900 hover:pl-6 transition-all duration-300">
                     <i class="fas fa-exclamation-triangle mr-3 text-lg"></i>
-                    <span class="text-lg">Sách quá hạn</span>
+                    <span class="text-base">Sách quá hạn</span>
                 </a>
             </li>
-            {# Thêm các liên kết đăng nhập/đăng ký/đăng xuất tại đây #}
-            {% if user.is_authenticated %} {# Kiểm tra xem người dùng đã đăng nhập chưa #}
+        </ul>
+    </nav>
+
+    <!-- ĐĂNG NHẬP / ĐĂNG XUẤT đặt ở cuối thanh sidebar -->
+    <div class="mt-auto">
+        <ul class="space-y-3 mt-4">
+            <hr class="border-gray-500">
+
+            {% if user.is_authenticated %}
                 <li>
-                    {# Hiển thị tên người dùng và liên kết đăng xuất nếu đã đăng nhập #}
-                    <a href="{% url 'logout' %}" class="flex items-center px-4 py-2 rounded-lg hover:bg-gray-700 transition duration-200">
+                    <a href="{% url 'logout' %}" class="flex items-center px-4 py-2 rounded-md hover:bg-blue-900 hover:pl-6 transition-all duration-300">
                         <i class="fas fa-sign-out-alt mr-3 text-lg"></i>
-                        <span class="text-lg">Đăng xuất ({{ user.username }})</span>
+                        <span class="text-base">Đăng xuất ({{ user.username }})</span>
                     </a>
                 </li>
-            {% else %} {# Hiển thị liên kết đăng nhập và đăng ký nếu chưa đăng nhập #}
+            {% else %}
                 <li>
-                    <a href="{% url 'login' %}" class="flex items-center px-4 py-2 rounded-lg hover:bg-gray-700 transition duration-200">
+                    <a href="{% url 'login' %}" class="flex items-center px-4 py-2 rounded-md hover:bg-blue-900 hover:pl-6 transition-all duration-300">
                         <i class="fas fa-sign-in-alt mr-3 text-lg"></i>
-                        <span class="text-lg">Đăng nhập</span>
+                        <span class="text-base">Đăng nhập</span>
                     </a>
                 </li>
                 <li>
-                    <a href="{% url 'register' %}" class="flex items-center px-4 py-2 rounded-lg hover:bg-gray-700 transition duration-200">
+                    <a href="{% url 'register' %}" class="flex items-center px-4 py-2 rounded-md hover:bg-blue-900 hover:pl-6 transition-all duration-300">
                         <i class="fas fa-user-plus mr-3 text-lg"></i>
-                        <span class="text-lg">Đăng ký</span>
+                        <span class="text-base">Đăng ký</span>
                     </a>
                 </li>
             {% endif %}
-            {# Kết thúc phần liên kết xác thực #}
         </ul>
-    </nav>
-    <div class="mt-auto text-center text-sm text-gray-400">
-        <p>&copy; 2024 LMS</p>
+
+        <!-- FOOTER THÔNG TIN -->
+        <div class="text-center text-xs text-gray-300 mt-6">
+            <p>&copy; 2025 Booktok Library</p>
+        </div>
     </div>
 </aside>
+<!-- KẾT THÚC SIDEBAR -->
