@@ -1,11 +1,11 @@
 //Tệp cấu hình Dev Container cho ứng dụng Django đơn giản"//
 {
-  "image": "mcr.microsoft.com/devcontainers/universal:2",
+  "image": "mcr.microsoft.com/devcontainers/universal:2",// Sử dụng hình ảnh Dev Container cơ bản
   "hostRequirements": {
-    "cpus": 4
+    "cpus": 4// Số lượng CPU tối thiểu
   },
-  "waitFor": "onCreateCommand",
-  "updateContentCommand": "pip install -r requirements.txt && python manage.py migrate",
+  "waitFor": "onCreateCommand",// Chờ lệnh khởi tạo hoàn thành
+  "updateContentCommand": "pip install -r requirements.txt && python manage.py migrate",// Cập nhật nội dung và cài đặt phụ thuộc
   "postCreateCommand": "cp .env.example .env",
   "postAttachCommand": {
     "server": "python manage.py runserver"
