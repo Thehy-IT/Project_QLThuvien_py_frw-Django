@@ -5,3 +5,4 @@ staticfiles/ # Thư mục chứa các tệp tĩnh được thu thập
 .env # Tệp biến môi trường
 venv/ # Môi trường ảo Python
 media/ # Thư mục chứa các tệp media (ảnh, tài liệu...) được người dùng tải lên
+note.md #Bỏ qua file note.md hok đưa lên git.
