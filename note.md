@@ -20,3 +20,5 @@
 - Thêm logo cho wed
 - Thay đổi nền sau mối lần đăng nhập.
 - Repsponsive thanh sidebar khi hẹp màn hình chỉ hiển thị icon.
+- Thêm data sách vào Ứng dụng
+- Quản lý thành viên đã đang ký ứng dụng trong giao diện admin
