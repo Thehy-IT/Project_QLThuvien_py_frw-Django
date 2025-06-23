@@ -4,12 +4,11 @@
 
 
 -----------------------------
-- Thêm danh sách sách đã được mượn dưới phần mượn sách
+- Thêm lịch sử sách đã được mượn dưới phần mượn sách
 - Thêm nút trả sách nhanh trong thanh sidebar
 - tạo lại giao diện đăng nhập đăng ký
 - Thêm vào trang chủ Biểu đồ thể hiện....
 - Thêm liên kết cho các sesion tổng kết
--  Xóa footer
 - Trong danh sách Sách tạo thêm 2 sécion 1 là số danh sách sách còn lại trong tong thư viện và danh sách sách đã mượn< có kem số lượng sách>
 - Sửa lại thanh tìm kiếm và giao diện form tìm kiếm
 - Sửa form nhập thêm sách mới
