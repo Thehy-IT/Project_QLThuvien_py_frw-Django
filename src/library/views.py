@@ -169,6 +169,40 @@ def borrow_book(request):
             messages.error(request, "Có lỗi xảy ra khi tạo phiếu mượn.")
     return render(request, 'library/borrow_book.html', {'form': form}) # Hiển thị form mượn sách
 
+# lịch sử mượn sách
+@login_required
+def borrow_book_view(request):
+    if request.method == 'POST':
+        book_id = request.POST.get('book')
+        member_id = request.POST.get('member')
+        book = get_object_or_404(Book, id=book_id)
+        member = get_object_or_404(Member, id=member_id)
+
+        if book.quantity > 0:
+            # Kiểm tra xem người dùng đã mượn sách này và chưa trả hay không
+            if not borrow_book.objects.filter(book=book, member=member, return_date__isnull=True).exists():
+                borrow_book.objects.create(book=book, member=member)
+                book.quantity -= 1
+                book.save()
+                messages.success(request, f'Member {member.name} has successfully borrowed {book.title}.')
+            else:
+                messages.error(request, f'Member {member.name} has already borrowed {book.title} and not returned it yet.')
+        else:
+            messages.error(request, 'This book is out of stock.')
+        return redirect('borrow_book')
+
+    books = Book.objects.filter(quantity__gt=0)
+    members = Member.objects.all()
+    # Lấy lịch sử mượn sách
+    borrowed_books_history = borrow_book.objects.all().order_by('-borrow_date')
+
+    context = {
+        'books': books,
+        'members': members,
+        'borrowed_books_history': borrowed_books_history, # Thêm vào context
+    }
+    return render(request, 'library/borrow_book.html', context)
+
 # Trả sách
 @login_required
 def return_book(request, pk):

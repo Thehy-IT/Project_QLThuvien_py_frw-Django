@@ -21,3 +21,5 @@
 - Repsponsive thanh sidebar khi hẹp màn hình chỉ hiển thị icon.
 - Thêm data sách vào Ứng dụng
 - Quản lý thành viên đã đang ký ứng dụng trong giao diện admin
+- Thêm danh sách sách đã mượn.
+- Thêm lịch sửa thêm sách mới.
