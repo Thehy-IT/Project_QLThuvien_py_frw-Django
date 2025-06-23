@@ -3,28 +3,107 @@
 {% block title %}Mượn Sách{% endblock %}
 
 {% block content %}
-<h2 class="text-2xl font-semibold mb-4">Mượn Sách</h2>
+<div class="container mx-auto px-4 py-8">
+    <h2 class="text-2xl font-semibold mb-4 text-gray-800">Mượn Sách</h2>
 
-<form method="post" class="bg-white p-6 rounded-lg shadow-md">
-    {% csrf_token %}
-    <div class="grid grid-cols-1 gap-4">
-        {% for field in form %} {# Lặp qua các trường của form mượn sách #}
-            <div class="mb-4">
-                <label for="{{ field.id_for_label }}" class="block text-gray-700 text-sm font-bold mb-2">{{ field.label }}:</label>
-                {{ field }}
-                {% if field.help_text %}
-                    <p class="text-gray-600 text-xs italic">{{ field.help_text }}</p>
-                {% endif %}
-                {% for error in field.errors %} {# Hiển thị lỗi riêng của trường #}
-                    <p class="text-red-500 text-xs italic">{{ error }}</p>
+    <div class="bg-white p-6 rounded-lg shadow-md mb-8">
+        <form method="post">
+            {% csrf_token %}
+            {% if messages %}
+                <div class="mb-4">
+                {% for message in messages %}
+                    <div class="p-4 rounded-md {% if message.tags == 'success' %}bg-green-100 text-green-800{% else %}bg-red-100 text-red-800{% endif %}">
+                        {{ message }}
+                    </div>
                 {% endfor %}
+                </div>
+            {% endif %}
+            
+            {# RENDER FORM #}
+            {# Cách 1: Giữ nguyên cấu trúc lặp qua form của bạn #}
+            {# Lưu ý: Cách này yêu cầu bạn phải tạo một Django Form trong file forms.py và truyền vào view #}
+            {% if form %}
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {% for field in form %}
+                        <div>
+                            <label for="{{ field.id_for_label }}" class="block text-gray-700 text-sm font-bold mb-2">{{ field.label }}:</label>
+                            {{ field }}
+                             {% if field.help_text %}
+                                <p class="text-gray-600 text-xs italic mt-1">{{ field.help_text }}</p>
+                            {% endif %}
+                            {% for error in field.errors %}
+                                <p class="text-red-500 text-xs italic mt-1">{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+            {# Cách 2: Render thủ công (Hoạt động với view hiện tại của bạn mà không cần tạo form) #}
+             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <label for="id_book" class="block text-gray-700 text-sm font-bold mb-2">Sách:</label>
+                    <select name="book" id="id_book" class="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                         <option value="" disabled selected>Chọn một cuốn sách</option>
+                        {% for book in books %}
+                            <option value="{{ book.id }}">{{ book.title }} (Còn lại: {{ book.quantity }})</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div>
+                    <label for="id_member" class="block text-gray-700 text-sm font-bold mb-2">Thành viên:</label>
+                    <select name="member" id="id_member" class="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                         <option value="" disabled selected>Chọn một thành viên</option>
+                        {% for member in members %}
+                            <option value="{{ member.id }}">{{ member.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
             </div>
-        {% endfor %}
+            {% endif %}
+
+            <div class="flex justify-end mt-6">
+                <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Mượn Sách</button>
+                <a href="{% url 'book_list' %}" class="ml-4 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Hủy</a>
+            </div>
+        </form>
     </div>
-    <div class="flex justify-end mt-6">
-        {# Nút mượn sách và nút hủy #}
-        <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Mượn Sách</button>
-        <a href="{% url 'overdue_books' %}" class="ml-4 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded">Hủy</a>
+
+    <div class="bg-white p-6 rounded-lg shadow-md">
+        <h3 class="text-xl font-semibold mb-4 text-gray-800">Lịch Sử Mượn Sách</h3>
+        <div class="overflow-x-auto">
+            <table class="w-full text-left table-auto">
+                <thead class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
+                    <tr>
+                        <th class="py-3 px-6 text-left">Thành Viên</th>
+                        <th class="py-3 px-6 text-left">Tên Sách</th>
+                        <th class="py-3 px-6 text-center">Ngày Mượn</th>
+                        <th class="py-3 px-6 text-center">Ngày Trả</th>
+                        <th class="py-3 px-6 text-center">Trạng Thái</th>
+                    </tr>
+                </thead>
+                <tbody class="text-gray-600 text-sm font-light">
+                    {% for borrowing in borrowed_books_history %}
+                    <tr class="border-b border-gray-200 hover:bg-gray-100">
+                        <td class="py-3 px-6 text-left whitespace-nowrap">{{ borrowing.member.name }}</td>
+                        <td class="py-3 px-6 text-left">{{ borrowing.book.title }}</td>
+                        <td class="py-3 px-6 text-center">{{ borrowing.borrow_date|date:"d-m-Y" }}</td>
+                        <td class="py-3 px-6 text-center">{{ borrowing.return_date|date:"d-m-Y"|default:"Chưa trả" }}</td>
+                        <td class="py-3 px-6 text-center">
+                            {% if borrowing.return_date %}
+                                <span class="bg-green-200 text-green-700 py-1 px-3 rounded-full text-xs">Đã Trả</span>
+                            {% else %}
+                                <span class="bg-yellow-200 text-yellow-700 py-1 px-3 rounded-full text-xs">Đang Mượn</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="5" class="text-center py-8 text-gray-500">Không có lịch sử mượn sách.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </div>
-</form>
+</div>
 {% endblock %}

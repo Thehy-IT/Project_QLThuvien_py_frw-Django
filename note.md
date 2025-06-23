@@ -4,7 +4,6 @@
 
 
 -----------------------------
-- Thêm lịch sử sách đã được mượn dưới phần mượn sách
 - Thêm nút trả sách nhanh trong thanh sidebar
 - tạo lại giao diện đăng nhập đăng ký
 - Thêm vào trang chủ Biểu đồ thể hiện....
