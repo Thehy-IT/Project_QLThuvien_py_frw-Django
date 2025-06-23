@@ -7,3 +7,12 @@ venv/ # Môi trường ảo Python
 media/ # Thư mục chứa các tệp media (ảnh, tài liệu...) được người dùng tải lên
 note.md #Bỏ qua file note.md hok đưa lên git.
 .vscode
+*.pyc
+
+*.sqlite3
+db.sqlite3
+
+# Environment
+env/
+
+/static_root/
