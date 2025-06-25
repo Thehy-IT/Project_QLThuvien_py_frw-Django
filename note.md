@@ -4,21 +4,25 @@
 
 
 -----------------------------
-- Thêm nút trả sách nhanh trong thanh sidebar
-- tạo lại giao diện đăng nhập đăng ký
-- Thêm vào trang chủ Biểu đồ thể hiện....
-- Thêm liên kết cho các sesion tổng kết
-- Trong danh sách Sách tạo thêm 2 sécion 1 là số danh sách sách còn lại trong tong thư viện và danh sách sách đã mượn< có kem số lượng sách>
-- Sửa lại thanh tìm kiếm và giao diện form tìm kiếm
-- Sửa form nhập thêm sách mới
-- Trong sécion mượn sách thêm secsion số sách đã mượn và thành viên mượn sách cùng ngày tháng năm ...
-- Thêm nút thông báo về lưu lại các lịch sửa thêm xóa sửa thành viên và sách 
-- trong secsion sách đã mượn có hiển thị secsion cảnh báo thời gian hết hạn mượn sách
-- Sửa form thêm thành viên
-- Thêm logo cho wed
-- Thay đổi nền sau mối lần đăng nhập.
-- Repsponsive thanh sidebar khi hẹp màn hình chỉ hiển thị icon.
-- Thêm data sách vào Ứng dụng
-- Quản lý thành viên đã đang ký ứng dụng trong giao diện admin
-- Thêm danh sách sách đã mượn.
-- Thêm lịch sửa thêm sách mới.
++ Cải thiện trải nghiệm người dùng và tính năng cốt lõi:
+    Tạo lại giao diện đăng nhập/đăng ký.
+    Sửa lại thanh tìm kiếm và giao diện form tìm kiếm.
+    Trong danh sách sách tạo thêm 2 section: số sách còn lại và danh sách sách đã mượn.
+    Trong section mượn sách thêm section số sách đã mượn và thành viên mượn sách cùng ngày tháng năm.
+    Trong section sách đã mượn có hiển thị section cảnh báo thời gian hết hạn mượn sách.
+    Thêm nút trả sách nhanh trong thanh sidebar.
+    Responsive thanh sidebar khi hẹp màn hình chỉ hiển thị icon.
+
++Quản lý dữ liệu và tính năng phụ trợ:
+    Thêm data sách vào ứng dụng (nếu chưa có).
+    Quản lý thành viên đã đăng ký ứng dụng trong giao diện admin.
+    Sửa form thêm sách mới.
+    Sửa form thêm thành viên.
+    Thêm nút thông báo về lưu lại các lịch sử thêm/xóa/sửa thành viên và sách.
+    Thêm lịch sử thêm sách mới.
+
++Cải thiện thẩm mỹ và tính năng bổ sung:
+    Thêm logo cho web.
+    Thêm vào trang chủ biểu đồ thể hiện... (cần làm rõ).
+    Thêm liên kết cho các session tổng kết.
+    Thay đổi nền sau mỗi lần đăng nhập.
