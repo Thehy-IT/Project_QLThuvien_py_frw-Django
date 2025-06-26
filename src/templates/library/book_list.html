@@ -3,108 +3,128 @@
 {% block title %}Danh sách Sách{% endblock %} {# Định nghĩa tiêu đề trang #}
 
 {% block content %} {# Khối nội dung chính của trang #}
-<h2 class="text-2xl font-semibold mb-4">Danh sách Sách</h2>
+<div class="bg-white p-6 rounded-lg shadow-md">
 
-<div class="flex justify-between items-center mb-4">
-    {# Nút thêm sách mới #}
-    <div>
-        <a href="{% url 'book_create' %}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Thêm Sách Mới</a>
-        <!-- Nút mở Modal Lọc -->
-        <button id="openFilterModal" class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center ml-2">
-            <svg class="w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                <path fill-rule="evenodd" d="M3 3a1 1 0 011-1h12a1 1 0 011 1v3a1 1 0 01-.293.707L13 10.414V15a1 1 0 01-.293.707l-2 2A1 1 0 019 17v-6.586L3.293 6.707A1 1 0 013 6V3z" clip-rule="evenodd" />
-            </svg>
-            <span>Lọc</span>
-        </button>
+    <!-- Header: Title and Actions -->
+    <div class="flex flex-wrap justify-between items-center mb-6 pb-4 border-b border-gray-200 gap-4">
+        <h2 class="text-3xl font-bold text-gray-800">Quản lý Sách</h2>
+        <div class="flex items-center space-x-2">
+            {# Nút thêm sách mới #}
+            <a href="{% url 'book_create' %}" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg inline-flex items-center shadow-sm transition-colors duration-200">
+                <i class="fas fa-plus mr-2"></i>
+                Thêm Sách
+            </a>
+            <!-- Nút mở Modal Lọc -->
+            <button id="openFilterModal" class="bg-white hover:bg-gray-100 text-gray-700 font-semibold py-2 px-4 rounded-lg inline-flex items-center border border-gray-300 shadow-sm transition-colors duration-200">
+                <svg class="w-5 h-5 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M3 3a1 1 0 011-1h12a1 1 0 011 1v3a1 1 0 01-.293.707L13 10.414V15a1 1 0 01-.293.707l-2 2A1 1 0 019 17v-6.586L3.293 6.707A1 1 0 013 6V3z" clip-rule="evenodd" />
+                </svg>
+                <span>Lọc & Sắp xếp</span>
+            </button>
+                {# Form tìm kiếm sách #}
+            <form class="search-container mb-6" action="{% url 'book_search' %}" method="get" role="search">
+                <input 
+                    type="search" 
+                    class="search-input" 
+                    name="q" 
+                    placeholder="Tìm kiếm sách..." 
+                    aria-label="Search"
+                    value="{{ request.GET.q | default:'' }}"> <!-- Giữ lại từ khóa đã tìm kiếm -->
+                <button type="submit" class="search-button" aria-label="Submit search">
+                    <!-- Icon kính lúp dạng SVG -->
+                    <svg class="search-icon" viewBox="0 0 24 24">
+                        <path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+                    </svg>
+                </button>
+            </form>
+
+        </div>
     </div>
-    {# Form tìm kiếm sách #}
-    <!-- THANH TÌM KIẾM MỚI -->
-<form class="search-container" action="{% url 'book_search' %}" method="get" role="search">
-    <input 
-        type="search" 
-        class="search-input" 
-        name="q" 
-        placeholder="Tìm kiếm sách..." 
-        aria-label="Search"
-        value="{{ request.GET.q | default:'' }}"> <!-- Giữ lại từ khóa đã tìm kiếm -->
-    <button type="submit" class="search-button" aria-label="Submit search">
-        <!-- Icon kính lúp dạng SVG -->
-        <svg class="search-icon" viewBox="0 0 24 24">
-            <path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
-        </svg>
-    </button>
-</form>
+    
 
-</div>
-
-<div class="overflow-x-auto">
-    <table class="min-w-full bg-white border border-gray-200">
-        <thead>
-            <tr>
-                <th class="py-2 px-4 border-b">ID Sách</th>
-                <th class="py-2 px-4 border-b">Tên Sách</th>
-                <th class="py-2 px-4 border-b">Tác Giả</th>
-                <th class="py-2 px-4 border-b">Số Trang</th>
-                <th class="py-2 px-4 border-b">Năm XB</th>
-                <th class="py-2 px-4 border-b">Trạng Thái</th>
-                <th class="py-2 px-4 border-b">Chủng Loại</th>
-                <th class="py-2 px-4 border-b">Thao tác</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for book in books %} {# Lặp qua danh sách sách #}
-            <tr>
-                <td class="py-2 px-4 border-b text-center">{{ book.book_id }}</td>
-                <td class="py-2 px-4 border-b">{{ book.title }}</td>
-                <td class="py-2 px-4 border-b">{{ book.author }}</td>
-                <td class="py-2 px-4 border-b text-center">{{ book.pages }}</td>
-                <td class="py-2 px-4 border-b text-center">{{ book.publication_year }}</td>
-                <td class="py-2 px-4 border-b text-center">
-                    {# Hiển thị trạng thái sách dựa trên giá trị số #}
-                    {% if book.status == 0 %}Có sẵn{% elif book.status == 1 %}Đã mượn{% else %}Khác{% endif %}
-                </td>
-                <td class="py-2 px-4 border-b text-center">{{ book.get_category_display }}</td> {# Hiển thị tên hiển thị của chủng loại #}
-                <td class="py-2 px-4 border-b text-center">
-                    {# Nút sửa và xóa sách #}
-                    <a href="{% url 'book_update' book.pk %}" class="text-yellow-600 hover:text-yellow-800 mr-2">Sửa</a>
-                    <a href="{% url 'book_delete' book.pk %}" class="text-red-600 hover:text-red-800">Xóa</a>
-                </td>
-            </tr>
-            {% empty %} {# Nếu không có sách nào #}
-            <tr>
-                <td colspan="8" class="py-4 text-center text-gray-500">Không có sách nào.</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    <!-- Table -->
+    <div class="shadow-md rounded-lg overflow-x-auto">
+        <div class="align-middle inline-block min-w-full">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tên Sách</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tác Giả</th>
+                        <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Số Trang</th>
+                        <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Năm XB</th>
+                        <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Trạng Thái</th>
+                        <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Chủng Loại</th>
+                        <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    {% for book in books %} {# Lặp qua danh sách sách #}
+                    <tr class="hover:bg-gray-50 transition-colors duration-200">
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">{{ book.book_id }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{ book.title }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ book.author }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">{{ book.pages }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">{{ book.publication_year }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-center">
+                            {# Hiển thị trạng thái sách dạng badge #}
+                            {% if book.status == 0 %}
+                                <span class="px-2.5 py-0.5 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Có sẵn</span>
+                            {% elif book.status == 1 %}
+                                <span class="px-2.5 py-0.5 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">Đã mượn</span>
+                            {% else %}
+                                <span class="px-2.5 py-0.5 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">Khác</span>
+                            {% endif %}
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">{{ book.get_category_display }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium">
+                            {# Nút sửa và xóa sách dạng icon #}
+                            <a href="{% url 'book_update' book.pk %}" class="text-indigo-600 hover:text-indigo-900 mr-4" title="Sửa"><i class="fas fa-pencil-alt"></i></a>
+                            <a href="{% url 'book_delete' book.pk %}" class="text-red-600 hover:text-red-900" title="Xóa"><i class="fas fa-trash-alt"></i></a>
+                        </td>
+                    </tr>
+                    {% empty %} {# Nếu không có sách nào #}
+                    <tr>
+                        <td colspan="8" class="px-6 py-12 text-center text-gray-500">
+                            <div class="text-center">
+                                <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                                    <path vector-effect="non-scaling-stroke" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 13h6m-3-3v6m-9 1V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
+                                </svg>
+                                <h3 class="mt-2 text-sm font-medium text-gray-900">Không có sách nào</h3>
+                                <p class="mt-1 text-sm text-gray-500">Hãy bắt đầu bằng cách thêm một cuốn sách mới.</p>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
 
 <!-- Modal Lọc -->
-<div id="filterModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full hidden z-50">
-    <div class="relative top-20 mx-auto p-5 border w-full max-w-md shadow-lg rounded-md bg-white">
+<div id="filterModal" class="fixed inset-0 bg-gray-800 bg-opacity-75 overflow-y-auto h-full w-full hidden z-50 transition-opacity duration-300 ease-out" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+    <div class="relative top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 p-6 border w-full max-w-lg shadow-xl rounded-lg bg-white">
         <!-- Modal Header -->
-        <div class="flex justify-between items-center pb-3 border-b">
-            <p class="text-2xl font-bold">Bộ lọc sách</p>
-            <div id="closeFilterModal" class="cursor-pointer z-50">
-                <svg class="fill-current text-black" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">
-                    <path d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z"></path>
-                </svg>
-            </div>
+        <div class="flex justify-between items-center pb-4 border-b border-gray-200">
+            <h3 class="text-xl font-semibold text-gray-900" id="modal-title">Bộ lọc sách</h3>
+            <button id="closeFilterModal" type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center transition-colors duration-200">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                <span class="sr-only">Đóng modal</span>
+            </button>
         </div>
         <!-- Modal Body -->
-        <div class="mt-4">
-            {# Form này sẽ gửi đến trang danh sách sách để áp dụng bộ lọc #}
-            {# Lưu ý: Bạn cần cập nhật view 'book_list' để xử lý các tham số này #}
-            <form action="{% url 'book_list' %}" method="get">
+        <div class="mt-5">
+            <form action="{% url 'book_list' %}" method="get" class="space-y-4">
                 <!-- Giữ lại từ khóa tìm kiếm hiện tại (nếu có) từ URL -->
                 {% if request.GET.q %}
                 <input type="hidden" name="q" value="{{ request.GET.q }}">
                 {% endif %}
 
                 <!-- Lọc theo Trạng thái -->
-                <div class="mb-4">
-                    <label for="status" class="block text-sm font-medium text-gray-700 mb-1">Trạng thái</label>
-                    <select name="status" id="status" class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                <div>
+                    <label for="status" class="block text-sm font-medium text-gray-700 mb-2">Trạng thái</label>
+                    <select name="status" id="status" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                         <option value="" {% if not request.GET.status %}selected{% endif %}>Tất cả</option>
                         <option value="0" {% if request.GET.status == '0' %}selected{% endif %}>Có sẵn</option>
                         <option value="1" {% if request.GET.status == '1' %}selected{% endif %}>Đã mượn</option>
@@ -112,9 +132,9 @@
                 </div>
 
                 <!-- Lọc theo Chủng loại -->
-                <div class="mb-4">
-                    <label for="category" class="block text-sm font-medium text-gray-700 mb-1">Chủng loại</label>
-                    <select name="category" id="category" class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                <div>
+                    <label for="category" class="block text-sm font-medium text-gray-700 mb-2">Chủng loại</label>
+                    <select name="category" id="category" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                         <option value="" {% if not request.GET.category %}selected{% endif %}>Tất cả</option>
                         {% for value, display in categories %}
                             <option value="{{ value }}" {% if request.GET.category == value|stringformat:"s" %}selected{% endif %}>{{ display }}</option>
@@ -123,9 +143,9 @@
                 </div>
 
                 <!-- Lọc theo Tác giả -->
-                <div class="mb-4">
-                    <label for="author" class="block text-sm font-medium text-gray-700 mb-1">Tác giả</label>
-                    <select name="author" id="author" class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                <div>
+                    <label for="author" class="block text-sm font-medium text-gray-700 mb-2">Tác giả</label>
+                    <select name="author" id="author" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                         <option value="" {% if not request.GET.author %}selected{% endif %}>Tất cả tác giả</option>
                         {% for author_name in authors %}
                             <option value="{{ author_name }}" {% if request.GET.author == author_name %}selected{% endif %}>{{ author_name }}</option>
@@ -134,25 +154,25 @@
                 </div>
 
                 <!-- Lọc theo Khoảng số trang -->
-                <div class="mb-4">
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Khoảng số trang</label>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Khoảng số trang</label>
                     <div class="flex items-center space-x-2">
-                        <input type="number" name="min_pages" value="{{ request.GET.min_pages | default:'' }}" placeholder="Từ {{ page_stats.min | default:0 }}" class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" min="0">
+                        <input type="number" name="min_pages" value="{{ request.GET.min_pages | default:'' }}" placeholder="Từ {{ page_stats.min | default:0 }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" min="0">
                         <span class="text-gray-500">-</span>
-                        <input type="number" name="max_pages" value="{{ request.GET.max_pages | default:'' }}" placeholder="Đến {{ page_stats.max | default:1000 }}" class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" min="0">
+                        <input type="number" name="max_pages" value="{{ request.GET.max_pages | default:'' }}" placeholder="Đến {{ page_stats.max | default:1000 }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" min="0">
                     </div>
                 </div>
 
                 <!-- Lọc theo Năm sản xuất -->
-                <div class="mb-4">
-                    <label for="year" class="block text-sm font-medium text-gray-700 mb-1">Năm sản xuất</label>
-                    <input type="number" name="year" id="year" value="{{ request.GET.year | default:'' }}" placeholder="VD: 2023" class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" min="1000" max="9999">
+                <div>
+                    <label for="year" class="block text-sm font-medium text-gray-700 mb-2">Năm sản xuất</label>
+                    <input type="number" name="year" id="year" value="{{ request.GET.year | default:'' }}" placeholder="VD: 2023" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" min="1000" max="9999">
                 </div>
 
                 <!-- Nút điều khiển -->
-                <div class="flex justify-end items-center space-x-3 pt-4 border-t">
-                    <a href="{% url 'book_list' %}" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">Xóa lọc</a>
-                    <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Áp dụng</button>
+                <div class="flex justify-end items-center space-x-3 pt-4 border-t border-gray-200">
+                    <a href="{% url 'book_list' %}" class="py-2.5 px-5 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 transition-colors duration-200">Xóa lọc</a>
+                    <button type="submit" class="text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center transition-colors duration-200">Áp dụng</button>
                 </div>
             </form>
         </div>
@@ -164,16 +184,32 @@
     const modal = document.getElementById('filterModal');
     const openModalBtn = document.getElementById('openFilterModal');
     const closeModalBtn = document.getElementById('closeFilterModal');
-    if (openModalBtn) {
-        openModalBtn.onclick = () => modal.classList.remove('hidden');
+
+    const showModal = () => {
+        if (modal) modal.classList.remove('hidden');
+    };
+
+    const hideModal = () => {
+        if (modal) modal.classList.add('hidden');
+    };
+
+    if (openModalBtn) openModalBtn.addEventListener('click', showModal);
+    if (closeModalBtn) closeModalBtn.addEventListener('click', hideModal);
+
+    // Click outside of the modal content to close
+    if (modal) {
+        modal.addEventListener('click', (event) => {
+            if (event.target === modal) {
+                hideModal();
+            }
+        });
     }
-    if (closeModalBtn) {
-        closeModalBtn.onclick = () => modal.classList.add('hidden');
-    }
-    window.onclick = (event) => {
-        if (event.target == modal) {
-            modal.classList.add('hidden');
+
+    // Press escape to close
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && modal && !modal.classList.contains('hidden')) {
+            hideModal();
         }
-    }
+    });
 </script>
 {% endblock %}
