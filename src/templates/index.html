@@ -5,7 +5,7 @@
 
 {% block content %} {# Khối nội dung chính của trang #}
 <div class="flex items-center justify-center min-h-[calc(100vh-160px)]"> {# Sử dụng flexbox để căn giữa nội dung theo chiều dọc và ngang, min-h để chiếm phần lớn chiều cao màn hình #}
-    <div class="bg-white p-8 rounded-lg shadow-xl text-center max-w-4xl w-full"> {# Tạo một khung chứa nội dung với nền trắng, padding, bo tròn góc, đổ bóng và giới hạn chiều rộng #}
+    <div class="bg-white p-8 rounded-lg shadow-xl text-center max-w-5xl w-full"> {# Tạo một khung chứa nội dung với nền trắng, padding, bo tròn góc, đổ bóng và giới hạn chiều rộng #}
         <h2 class="text-4xl font-bold text-gray-800 mb-8">Welcome to the Booktok Library</h2> {# Tiêu đề chính của trang chủ, font lớn, đậm, màu xám đậm #}
         <p class="text-lg text-gray-600 mb-8"> {# Đoạn văn giới thiệu hệ thống #}
             Quản lý sách, thành viên và các giao dịch mượn/trả sách một cách hiệu quả.
@@ -13,7 +13,7 @@
         </p>
 
         {# Summary Statistics Section - Phần thống kê tổng kết #}
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10"> {# Sử dụng CSS Grid để tạo layout đáp ứng: 1 cột trên mobile, 2 cột trên tablet, 4 cột trên desktop #}
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-10"> {# Sử dụng CSS Grid để tạo layout đáp ứng cho các thẻ thống kê #}
             {# Thẻ hiển thị Tổng số Sách #}
             <div class="bg-blue-100 p-5 rounded-lg shadow-md flex flex-col items-center justify-center"> {# Nền xanh nhạt, padding, bo tròn, đổ bóng, căn giữa nội dung #}
                 <i class="fas fa-book text-4xl text-blue-600 mb-3"></i> {# Icon sách từ Font Awesome, kích thước lớn, màu xanh #}
@@ -21,13 +21,20 @@
                 <p class="text-3xl font-bold text-blue-800 mt-2">{{ total_books }}</p> {# Hiển thị số liệu tổng số sách, lấy từ context của Django view #}
             </div>
             
-            {# Thẻ hiển thị Sách đã Mượn #}
+            {# Thẻ hiển thị Sách đang Mượn #}
             <div class="bg-green-100 p-5 rounded-lg shadow-md flex flex-col items-center justify-center">
                 <i class="fas fa-hand-holding-usd text-4xl text-green-600 mb-3"></i> {# Icon mượn trả, màu xanh lá cây #}
-                <h3 class="text-xl font-semibold text-gray-700">Sách đã Mượn</h3>
+                <h3 class="text-xl font-semibold text-gray-700">Sách đang Mượn</h3>
                 <p class="text-3xl font-bold text-green-800 mt-2">{{ borrowed_books }}</p> {# Hiển thị số sách đã mượn #}
             </div>
-            
+
+            {# Thẻ hiển thị Sách còn lại #}
+            <div class="bg-yellow-100 p-5 rounded-lg shadow-md flex flex-col items-center justify-center">
+                <i class="fas fa-book-open text-4xl text-yellow-600 mb-3"></i> {# Icon sách mở, màu vàng #}
+                <h3 class="text-xl font-semibold text-gray-700">Sách còn lại</h3>
+                <p class="text-3xl font-bold text-yellow-800 mt-2">{{ available_books }}</p> {# Hiển thị số sách còn lại, cần được tính trong view #}
+            </div>
+
             {# Thẻ hiển thị Tổng số Thành viên #}
             <div class="bg-purple-100 p-5 rounded-lg shadow-md flex flex-col items-center justify-center">
                 <i class="fas fa-users text-4xl text-purple-600 mb-3"></i> {# Icon người dùng, màu tím #}
