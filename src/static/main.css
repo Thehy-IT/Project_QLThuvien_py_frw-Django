@@ -70,14 +70,17 @@ textarea:focus {
     padding: 0.6rem 1.2rem;
     font-size: 1rem;
     line-height: 1.5;
-    border-radius: 0.25rem;
-    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    border-radius: 20px; /*bo tròn nút*/
+    transition: all 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
     cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.07); /* Thêm bóng đổ nhẹ cho chiều sâu */
 }
 
 .btn:hover {
     background-color: #0056b3;
     border-color: #004085;
+    transform: translateY(-2px); /* Hiệu ứng nhấc lên khi di chuột vào */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12); /* Tăng bóng đổ khi di chuột vào */
 }
 
 .btn-green {
@@ -180,3 +183,67 @@ textarea:focus {
     background-color: #d1ecf1;
     border-color: #bee5eb;
 }
+
+/*--------------------thanh timd kiếm--------------------*/
+/* Container cho thanh tìm kiếm */
+.search-container {
+    position: relative;
+    width: 30%;
+    max-width: 400px; /* Bạn có thể điều chỉnh chiều rộng này */
+    margin: 20px 0 20px auto; /* trên-phải- dưới- */
+}
+
+/* Ô nhập liệu (ghi đè style input chung) */
+.search-input {
+    width: 100%;
+    padding: 12px 45px 12px 20px;
+    border-radius: 50px;
+    border: 1px solid #dfe1e5;
+    font-size: 16px;
+    color: #202124;
+    outline: none;
+    box-sizing: border-box;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0 1px 6px rgba(32, 33, 36, 0.1);
+}
+
+/* Hiệu ứng khi người dùng nhấp vào (focus) ô tìm kiếm */
+.search-input:focus {
+    border-color: #4a90e2;
+    box-shadow: 0 2px 8px rgba(74, 144, 226, 0.4);
+}
+
+/* Tùy chỉnh chữ placeholder */
+.search-input::placeholder {
+    color: #80868b;
+    opacity: 1;
+}
+
+/* Nút tìm kiếm (chứa icon) */
+.search-button {
+    position: absolute;
+    top: 50%;
+    right: 15px;
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Icon tìm kiếm (SVG) */
+.search-icon {
+    width: 25px;
+    height: 25px;
+    fill: #5f6368;
+    transition: fill 0.2s ease;
+}
+
+/* Đổi màu icon khi di chuột qua nút */
+.search-button:hover .search-icon {
+    fill: #4a90e2;
+}
+/*---------------------------khác ------*/

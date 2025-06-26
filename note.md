@@ -4,13 +4,13 @@
 
 
 + Cải thiện trải nghiệm người dùng và tính năng cốt lõi:
-    Tạo lại giao diện đăng nhập/đăng ký.
-    Sửa lại thanh tìm kiếm và giao diện form tìm kiếm.
     Trong danh sách sách tạo thêm 2 section: số sách còn lại và danh sách sách đã mượn.
     Trong section mượn sách thêm section số sách đã mượn và thành viên mượn sách cùng ngày tháng năm.
     Trong section sách đã mượn có hiển thị section cảnh báo thời gian hết hạn mượn sách.
     Thêm nút trả sách nhanh trong thanh sidebar.
     Responsive thanh sidebar khi hẹp màn hình chỉ hiển thị icon.
+    Tạo lại giao diện đăng nhập/đăng ký.
+
 
 +Quản lý dữ liệu và tính năng phụ trợ:
     Thêm data sách vào ứng dụng (nếu chưa có).
