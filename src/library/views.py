@@ -3,6 +3,7 @@ from django.forms import ModelForm
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.db.models import Q, Min, Max
 from .models import Book, Member, BorrowRecord
 
 # Định nghĩa các Form (có thể di chuyển sang tệp forms.py riêng nếu dự án lớn hơn)
@@ -30,8 +31,59 @@ class BorrowRecordForm(ModelForm):
 
 # Hiển thị danh sách sách
 def book_list(request):
-    books = Book.objects.all() # Lấy tất cả sách từ cơ sở dữ liệu
-    return render(request, 'library/book_list.html', {'books': books})
+    # Bắt đầu với tất cả sách, sắp xếp theo ID
+    queryset = Book.objects.all().order_by('book_id')
+
+    # Lấy các tham số lọc và tìm kiếm từ request.GET
+    query = request.GET.get('q')
+    status = request.GET.get('status')
+    category = request.GET.get('category')
+    author = request.GET.get('author')
+    min_pages = request.GET.get('min_pages')
+    max_pages = request.GET.get('max_pages')
+    year = request.GET.get('year')
+
+    # Áp dụng bộ lọc tìm kiếm nếu có
+    if query:
+        # Tìm kiếm trong cả title, author, và book_id
+        queryset = queryset.filter(
+            Q(title__icontains=query) | Q(author__icontains=query) | Q(book_id__icontains=query)
+        )
+    
+    # Áp dụng bộ lọc trạng thái nếu có (và không phải là chuỗi rỗng)
+    if status:
+        queryset = queryset.filter(status=status)
+    
+    # Áp dụng bộ lọc chủng loại nếu có (và không phải là chuỗi rỗng)
+    if category:
+        queryset = queryset.filter(category=category)
+
+    # Lọc theo tác giả
+    if author:
+        queryset = queryset.filter(author=author)
+
+    # Lọc theo khoảng số trang
+    if min_pages:
+        queryset = queryset.filter(pages__gte=min_pages)
+    if max_pages:
+        queryset = queryset.filter(pages__lte=max_pages)
+
+    # Lọc theo năm sản xuất
+    if year:
+        queryset = queryset.filter(publication_year=year)
+
+    # Lấy dữ liệu cho các bộ lọc trong modal
+    category_choices = Book._meta.get_field('category').choices
+    authors = Book.objects.values_list('author', flat=True).distinct().order_by('author')
+    page_stats = Book.objects.aggregate(min=Min('pages'), max=Max('pages'))
+
+    context = {
+        'books': queryset, 
+        'categories': category_choices,
+        'authors': authors,
+        'page_stats': page_stats,
+    }
+    return render(request, 'library/book_list.html', context)
 
 # Tạo sách mới
 def book_create(request):
@@ -74,14 +126,9 @@ def book_delete(request, pk):
 # Tìm kiếm sách
 
 def book_search(request):
-    query = request.GET.get('q') # Lấy chuỗi tìm kiếm từ tham số URL 'q'
-    books = Book.objects.all() # Lấy tất cả sách ban đầu
-    if query:
-        # Lọc sách theo tiêu đề, tác giả hoặc ID sách (không phân biệt chữ hoa/thường)
-        books = books.filter(title__icontains=query) | \
-                books.filter(author__icontains=query) | \
-                books.filter(book_id__icontains=query)
-    return render(request, 'library/book_list.html', {'books': books, 'query': query}) # Hiển thị danh sách sách đã lọc
+    # Chuyển hướng logic tìm kiếm và lọc về view book_list để tránh trùng lặp code.
+    # book_list giờ đây xử lý cả tìm kiếm và lọc.
+    return book_list(request)
 
 
 # Các View Quản lý Thành viên
