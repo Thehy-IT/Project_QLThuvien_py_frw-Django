@@ -146,6 +146,3 @@ MEDIA_ROOT = BASE_DIR / "media"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # Cài đặt URL chuyển hướng sau khi đăng nhập/đăng xuất và URL cho trang đăng nhập
-LOGIN_REDIRECT_URL = '/'  # Chuyển hướng về trang chủ sau khi đăng nhập thành công
-LOGOUT_REDIRECT_URL = '/accounts/login/' # Chuyển hướng về trang đăng nhập sau khi đăng xuất
-LOGIN_URL = '/accounts/login/' # URL mặc định mà Django sẽ chuyển hướng đến khi người dùng cần đăng nhập
