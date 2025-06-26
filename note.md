@@ -3,7 +3,6 @@
 + Trang admin: http://127.0.0.1:8000/admin/
 
 
------------------------------
 + Cải thiện trải nghiệm người dùng và tính năng cốt lõi:
     Tạo lại giao diện đăng nhập/đăng ký.
     Sửa lại thanh tìm kiếm và giao diện form tìm kiếm.
