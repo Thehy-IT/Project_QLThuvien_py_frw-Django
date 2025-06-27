@@ -2,6 +2,7 @@ from django.urls import path
 from . import views # Import các view từ tệp views.py cùng thư mục
 
 urlpatterns = [
+    path('', views.index, name='index'), # Trang chủ/Dashboard
     # Các URL cho Sách
     path('books/', views.book_list, name='book_list'), # Danh sách sách
     path('books/add/', views.book_create, name='book_create'), # Thêm sách mới

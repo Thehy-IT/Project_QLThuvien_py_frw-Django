@@ -49,9 +49,81 @@
                 <p class="text-3xl font-bold text-red-800 mt-2">{{ overdue_books_count }}</p> {# Hiển thị số sách quá hạn #}
             </div>
         </div>
+
+        {# Chart Section - Phần biểu đồ thống kê #}
+        <div class="mt-12 bg-gray-50 p-6 rounded-lg shadow-inner">
+            <h3 class="text-2xl font-bold text-gray-800 mb-6 text-center">Biểu đồ Tổng quan Thư viện</h3>
+            <div class="relative h-96 w-full mx-auto">
+                <canvas id="libraryStatsChart"></canvas>
+            </div>
+        </div>
+
         <p class="text-md text-gray-500 mt-8"> {# Đoạn văn kết thúc #}
             Bắt đầu khám phá các tính năng của hệ thống ngay bây giờ!
         </p>
     </div>
 </div>
+
+{# Tải thư viện Chart.js để vẽ biểu đồ #}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+{# Script để khởi tạo và cấu hình biểu đồ #}
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const ctx = document.getElementById('libraryStatsChart').getContext('2d');
+        
+        new Chart(ctx, {
+            type: 'bar', // Loại biểu đồ là cột
+            data: {
+                labels: [
+                    'Tổng số Sách',
+                    'Sách đang Mượn',
+                    'Sách còn lại',
+                    'Tổng số Thành viên',
+                    'Sách quá hạn'
+                ],
+                datasets: [{
+                    label: 'Số lượng',
+                    data: [
+                        {{ total_books|default:0 }},
+                        {{ borrowed_books|default:0 }},
+                        {{ available_books|default:0 }},
+                        {{ total_members|default:0 }},
+                        {{ overdue_books_count|default:0 }}
+                    ],
+                    backgroundColor: [
+                        'rgba(54, 162, 235, 0.6)',  // Blue
+                        'rgba(75, 192, 192, 0.6)',  // Green
+                        'rgba(255, 206, 86, 0.6)',  // Yellow
+                        'rgba(153, 102, 255, 0.6)', // Purple
+                        'rgba(255, 99, 132, 0.6)'   // Red
+                    ],
+                    borderColor: 'rgba(0, 0, 0, 0.1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            // Đảm bảo các tick là số nguyên nếu dữ liệu nhỏ
+                            precision: 0
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false // Ẩn chú thích vì đã có nhãn trên các cột
+                    },
+                    title: {
+                        display: false // Tiêu đề đã được thêm bằng thẻ H3 ở trên
+                    }
+                }
+            }
+        });
+    });
+</script>
 {% endblock content %}

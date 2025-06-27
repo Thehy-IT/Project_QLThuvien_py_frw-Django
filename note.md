@@ -11,7 +11,6 @@
     Responsive thanh sidebar khi hẹp màn hình chỉ hiển thị icon.
     Tạo lại giao diện đăng nhập/đăng ký.
 
-
 +Quản lý dữ liệu và tính năng phụ trợ:
     Thêm data sách vào ứng dụng (nếu chưa có).
     Quản lý thành viên đã đăng ký ứng dụng trong giao diện admin.

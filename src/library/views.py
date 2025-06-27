@@ -27,6 +27,38 @@ class BorrowRecordForm(ModelForm):
         fields = ['book', 'member', 'due_date'] # Chỉ bao gồm các trường cần thiết cho việc mượn
 
 
+# New index view for dashboard
+@login_required # Thêm decorator này để yêu cầu đăng nhập
+def index(request):
+    # Tính tổng số sách
+    total_books = Book.objects.count()
+
+    # Tính số sách đã mượn (trạng thái = 1)
+    # Giả định rằng trạng thái sách được cập nhật chính xác thành 1 khi mượn
+    borrowed_books = Book.objects.filter(status=1).count()
+
+    # Tính số sách có sẵn (trạng thái = 0)
+    # Giả định rằng trạng thái sách được cập nhật chính xác thành 0 khi trả
+    available_books = Book.objects.filter(status=0).count()
+
+    # Tính tổng số thành viên
+    total_members = Member.objects.count()
+
+    # Tính số sách quá hạn
+    overdue_books_count = BorrowRecord.objects.filter(
+        return_date__isnull=True,
+        due_date__lt=timezone.now().date()
+    ).count()
+
+    context = {
+        'total_books': total_books,
+        'borrowed_books': borrowed_books,
+        'available_books': available_books,
+        'total_members': total_members,
+        'overdue_books_count': overdue_books_count,
+    }
+    return render(request, 'index.html', context) # Giả định index.html nằm trong thư mục templates gốc của dự án
+
 # Các View Quản lý Sách
 
 # Hiển thị danh sách sách
