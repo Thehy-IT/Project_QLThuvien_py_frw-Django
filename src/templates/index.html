@@ -1,129 +1,171 @@
-{% extends 'library/base.html' %} {# Kế thừa từ base.html để có cùng header và footer #}
-{% load static %} {# Tải template tag để quản lý các tệp tĩnh như CSS, JS #}
+{% extends 'library/base.html' %} {# Kế thừa layout chung từ base.html #}
 
-{% block title %}Thư Viện Sách-Kí Ức Số{% endblock %} {# Đặt tiêu đề riêng cho trang này, xuất hiện trên tab trình duyệt #}
+{% block title %}Dashboard - Thư Viện Sách{% endblock %} {# Đặt tiêu đề cho trang, hiển thị trên tab trình duyệt #}
 
-{% block content %} {# Khối nội dung chính của trang #}
-<div class="flex items-center justify-center min-h-[calc(100vh-160px)]"> {# Sử dụng flexbox để căn giữa nội dung theo chiều dọc và ngang, min-h để chiếm phần lớn chiều cao màn hình #}
-    <div class="bg-white p-8 rounded-lg shadow-xl text-center max-w-5xl w-full"> {# Tạo một khung chứa nội dung với nền trắng, padding, bo tròn góc, đổ bóng và giới hạn chiều rộng #}
-        <h2 class="text-4xl font-bold text-gray-800 mb-8">Welcome to the Booktok Library</h2> {# Tiêu đề chính của trang chủ, font lớn, đậm, màu xám đậm #}
-        <p class="text-lg text-gray-600 mb-8"> {# Đoạn văn giới thiệu hệ thống #}
-            Quản lý sách, thành viên và các giao dịch mượn/trả sách một cách hiệu quả.
-            Đây là nền tảng giúp bạn theo dõi tài nguyên thư viện của mình một cách dễ dàng.
+{% block content %} {# Bắt đầu khối nội dung chính của trang #}
+<div class="space-y-8">
+    {# Phần tiêu đề trang (Header) #}
+    <div>
+        <h1 class="text-3xl font-bold text-gray-900">Dashboard Tổng quan</h1>
+        <p class="text-md text-gray-600 mt-1">
+            Chào mừng trở lại! Dưới đây là tóm tắt nhanh về tình hình thư viện của bạn.
         </p>
+    </div>
 
-        {# Summary Statistics Section - Phần thống kê tổng kết #}
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-10"> {# Sử dụng CSS Grid để tạo layout đáp ứng cho các thẻ thống kê #}
-            {# Thẻ hiển thị Tổng số Sách #}
-            <div class="bg-blue-100 p-5 rounded-lg shadow-md flex flex-col items-center justify-center"> {# Nền xanh nhạt, padding, bo tròn, đổ bóng, căn giữa nội dung #}
-                <i class="fas fa-book text-4xl text-blue-600 mb-3"></i> {# Icon sách từ Font Awesome, kích thước lớn, màu xanh #}
-                <h3 class="text-xl font-semibold text-gray-700">Tổng số Sách</h3> {# Tiêu đề nhỏ hơn cho số liệu #}
-                <p class="text-3xl font-bold text-blue-800 mt-2">{{ total_books }}</p> {# Hiển thị số liệu tổng số sách, lấy từ context của Django view #}
+    {# Khu vực các thẻ thống kê tổng quan #}
+    {# Dùng CSS Grid để các thẻ tự sắp xếp trên các màn hình khác nhau (responsive) #}
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
+        {# Thẻ thống kê: Tổng số Sách #}
+        <div class="bg-white p-5 rounded-xl shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex items-center space-x-4">
+            <div class="bg-sky-100 text-sky-600 p-4 rounded-full">
+                <i class="fas fa-book text-2xl"></i>
             </div>
-            
-            {# Thẻ hiển thị Sách đang Mượn #}
-            <div class="bg-green-100 p-5 rounded-lg shadow-md flex flex-col items-center justify-center">
-                <i class="fas fa-hand-holding-usd text-4xl text-green-600 mb-3"></i> {# Icon mượn trả, màu xanh lá cây #}
-                <h3 class="text-xl font-semibold text-gray-700">Sách đang Mượn</h3>
-                <p class="text-3xl font-bold text-green-800 mt-2">{{ borrowed_books }}</p> {# Hiển thị số sách đã mượn #}
-            </div>
-
-            {# Thẻ hiển thị Sách còn lại #}
-            <div class="bg-yellow-100 p-5 rounded-lg shadow-md flex flex-col items-center justify-center">
-                <i class="fas fa-book-open text-4xl text-yellow-600 mb-3"></i> {# Icon sách mở, màu vàng #}
-                <h3 class="text-xl font-semibold text-gray-700">Sách còn lại</h3>
-                <p class="text-3xl font-bold text-yellow-800 mt-2">{{ available_books }}</p> {# Hiển thị số sách còn lại, cần được tính trong view #}
-            </div>
-
-            {# Thẻ hiển thị Tổng số Thành viên #}
-            <div class="bg-purple-100 p-5 rounded-lg shadow-md flex flex-col items-center justify-center">
-                <i class="fas fa-users text-4xl text-purple-600 mb-3"></i> {# Icon người dùng, màu tím #}
-                <h3 class="text-xl font-semibold text-gray-700">Tổng số Thành viên</h3>
-                <p class="text-3xl font-bold text-purple-800 mt-2">{{ total_members }}</p> {# Hiển thị tổng số thành viên #}
-            </div>
-            
-            {# Thẻ hiển thị Sách quá hạn #}
-            <div class="bg-red-100 p-5 rounded-lg shadow-md flex flex-col items-center justify-center">
-                <i class="fas fa-exclamation-triangle text-4xl text-red-600 mb-3"></i> {# Icon cảnh báo, màu đỏ #}
-                <h3 class="text-xl font-semibold text-gray-700">Sách quá hạn</h3>
-                <p class="text-3xl font-bold text-red-800 mt-2">{{ overdue_books_count }}</p> {# Hiển thị số sách quá hạn #}
+            <div>
+                <h3 class="text-sm font-medium text-gray-500">Tổng số Sách</h3>
+                <p class="text-2xl font-bold text-gray-800 mt-1">{{ total_books|default:0 }}</p>
             </div>
         </div>
 
-        {# Chart Section - Phần biểu đồ thống kê #}
-        <div class="mt-12 bg-gray-50 p-6 rounded-lg shadow-inner">
-            <h3 class="text-2xl font-bold text-gray-800 mb-6 text-center">Biểu đồ Tổng quan Thư viện</h3>
-            <div class="relative h-96 w-full mx-auto">
-                <canvas id="libraryStatsChart"></canvas>
+        {# Thẻ thống kê: Sách đang Mượn #}
+        <div class="bg-white p-5 rounded-xl shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex items-center space-x-4">
+            <div class="bg-emerald-100 text-emerald-600 p-4 rounded-full">
+                <i class="fas fa-hand-holding-usd text-2xl"></i>
+            </div>
+            <div>
+                <h3 class="text-sm font-medium text-gray-500">Sách đang Mượn</h3>
+                <p class="text-2xl font-bold text-gray-800 mt-1">{{ borrowed_books|default:0 }}</p>
             </div>
         </div>
 
-        <p class="text-md text-gray-500 mt-8"> {# Đoạn văn kết thúc #}
-            Bắt đầu khám phá các tính năng của hệ thống ngay bây giờ!
-        </p>
+        {# Thẻ thống kê: Sách còn lại #}
+        <div class="bg-white p-5 rounded-xl shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex items-center space-x-4">
+            <div class="bg-amber-100 text-amber-600 p-4 rounded-full">
+                <i class="fas fa-book-open text-2xl"></i>
+            </div>
+            <div>
+                <h3 class="text-sm font-medium text-gray-500">Sách còn lại</h3>
+                <p class="text-2xl font-bold text-gray-800 mt-1">{{ available_books|default:0 }}</p>
+            </div>
+        </div>
+
+        {# Thẻ thống kê: Tổng số Thành viên #}
+        <div class="bg-white p-5 rounded-xl shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex items-center space-x-4">
+            <div class="bg-violet-100 text-violet-600 p-4 rounded-full">
+                <i class="fas fa-users text-2xl"></i>
+            </div>
+            <div>
+                <h3 class="text-sm font-medium text-gray-500">Tổng số Thành viên</h3>
+                <p class="text-2xl font-bold text-gray-800 mt-1">{{ total_members|default:0 }}</p>
+            </div>
+        </div>
+
+        {# Thẻ thống kê: Sách quá hạn #}
+        <div class="bg-white p-5 rounded-xl shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex items-center space-x-4">
+            <div class="bg-rose-100 text-rose-600 p-4 rounded-full">
+                <i class="fas fa-exclamation-triangle text-2xl"></i>
+            </div>
+            <div>
+                <h3 class="text-sm font-medium text-gray-500">Sách quá hạn</h3>
+                <p class="text-2xl font-bold text-gray-800 mt-1">{{ overdue_books_count|default:0 }}</p>
+            </div>
+        </div>
+    </div>
+
+    {# Khu vực biểu đồ thống kê #}
+    <div class="bg-white p-6 rounded-xl shadow-lg">
+        <h3 class="text-xl font-bold text-gray-800 mb-4">Biểu đồ Thống kê</h3>
+        {# Container cho biểu đồ, đảm bảo nó có kích thước để Chart.js có thể vẽ #}
+        <div class="relative h-96 w-full">
+            <canvas id="libraryStatsChart"></canvas>
+        </div>
     </div>
 </div>
 
-{# Tải thư viện Chart.js để vẽ biểu đồ #}
+{# Tải thư viện Chart.js từ CDN để vẽ biểu đồ #}
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-{# Script để khởi tạo và cấu hình biểu đồ #}
+{# Script để khởi tạo và cấu hình biểu đồ Chart.js #}
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
+    // Đợi cho đến khi toàn bộ cây DOM được tải xong rồi mới thực thi script
+    document.addEventListener('DOMContentLoaded', function() {
+        // Lấy canvas element từ DOM nơi biểu đồ sẽ được vẽ
         const ctx = document.getElementById('libraryStatsChart').getContext('2d');
-        
-        new Chart(ctx, {
-            type: 'bar', // Loại biểu đồ là cột
+
+        // --- Dữ liệu cho biểu đồ ---
+
+        // Các nhãn (labels) tương ứng với từng cột trong biểu đồ
+        const chartLabels = [
+            'Tổng số Sách',
+            'Sách đang Mượn',
+            'Sách còn lại',
+            'Tổng số Thành viên',
+            'Sách quá hạn'
+        ];
+
+        // Dữ liệu số được truyền từ Django view.
+        // Filter `|default:0` đảm bảo rằng nếu biến không tồn tại, giá trị sẽ là 0.
+        const chartDataPoints = [
+            {{ total_books|default:0 }},
+            {{ borrowed_books|default:0 }},
+            {{ available_books|default:0 }},
+            {{ total_members|default:0 }},
+            {{ overdue_books_count|default:0 }}
+        ];
+
+        // Màu nền cho từng cột, tương ứng với màu của các thẻ thống kê ở trên
+        const chartBackgroundColors = [
+            'rgba(14, 165, 233, 0.6)', // Sky (tương ứng Tổng số Sách)
+            'rgba(16, 185, 129, 0.6)', // Emerald (tương ứng Sách đang Mượn)
+            'rgba(245, 158, 11, 0.6)', // Amber (tương ứng Sách còn lại)
+            'rgba(139, 92, 246, 0.6)', // Violet (tương ứng Tổng số Thành viên)
+            'rgba(244, 63, 94, 0.6)' // Rose (tương ứng Sách quá hạn)
+        ];
+
+        // --- Cấu hình tổng thể cho biểu đồ ---
+        const chartConfig = {
+            type: 'bar', // Loại biểu đồ là biểu đồ cột
             data: {
-                labels: [
-                    'Tổng số Sách',
-                    'Sách đang Mượn',
-                    'Sách còn lại',
-                    'Tổng số Thành viên',
-                    'Sách quá hạn'
-                ],
+                labels: chartLabels,
                 datasets: [{
-                    label: 'Số lượng',
-                    data: [
-                        {{ total_books|default:0 }},
-                        {{ borrowed_books|default:0 }},
-                        {{ available_books|default:0 }},
-                        {{ total_members|default:0 }},
-                        {{ overdue_books_count|default:0 }}
-                    ],
-                    backgroundColor: [
-                        'rgba(54, 162, 235, 0.6)',  // Blue
-                        'rgba(75, 192, 192, 0.6)',  // Green
-                        'rgba(255, 206, 86, 0.6)',  // Yellow
-                        'rgba(153, 102, 255, 0.6)', // Purple
-                        'rgba(255, 99, 132, 0.6)'   // Red
-                    ],
-                    borderColor: 'rgba(0, 0, 0, 0.1)',
-                    borderWidth: 1
+                    label: 'Số lượng', // Nhãn cho bộ dữ liệu (hiển thị khi di chuột qua)
+                    data: chartDataPoints,
+                    backgroundColor: chartBackgroundColors,
+                    borderColor: 'rgba(0, 0, 0, 0)', // Bỏ đường viền của các cột
+                    borderWidth: 1,
+                    borderRadius: 8, // Bo tròn các góc của cột để giao diện mềm mại hơn
                 }]
             },
             options: {
-                responsive: true,
-                maintainAspectRatio: false,
+                responsive: true, // Cho phép biểu đồ tự điều chỉnh kích thước theo container cha
+                maintainAspectRatio: false, // Không giữ tỷ lệ khung hình, cho phép biểu đồ lấp đầy chiều cao/rộng của container
                 scales: {
-                    y: {
-                        beginAtZero: true,
+                    y: { // Cấu hình cho trục Y (trục tung)
+                        beginAtZero: true, // Bắt đầu trục Y từ giá trị 0
+                        grid: {
+                            color: '#e5e7eb', // Màu của các đường lưới (tương đương Tailwind class 'gray-200')
+                            drawBorder: false, // Ẩn đường viền của lưới
+                        },
                         ticks: {
-                            // Đảm bảo các tick là số nguyên nếu dữ liệu nhỏ
-                            precision: 0
+                            precision: 0, // Đảm bảo các giá trị trên trục Y là số nguyên
+                            color: '#6b7280' // Màu chữ của các giá trị (tương đương Tailwind class 'gray-500')
                         }
+                    },
+                    x: { // Cấu hình cho trục X (trục hoành)
+                        grid: { display: false }, // Ẩn các đường lưới trên trục X
+                        ticks: { color: '#6b7280' } // Màu chữ của các nhãn
                     }
                 },
                 plugins: {
-                    legend: {
-                        display: false // Ẩn chú thích vì đã có nhãn trên các cột
-                    },
+                    legend: { display: false }, // Ẩn chú giải (legend) mặc định của biểu đồ
                     title: {
-                        display: false // Tiêu đề đã được thêm bằng thẻ H3 ở trên
+                        display: false // Ẩn tiêu đề mặc định của Chart.js (vì đã có tiêu đề bằng thẻ H3 ở trên)
                     }
                 }
             }
-        });
+        };
+
+        // --- Khởi tạo biểu đồ với canvas context và cấu hình đã định nghĩa ---
+        new Chart(ctx, chartConfig);
     });
 </script>
 {% endblock content %}
