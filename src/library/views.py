@@ -1,31 +1,45 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.forms import ModelForm
+from django import forms
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.db.models import Q, Min, Max
 from .models import Book, Member, BorrowRecord
+from django.db import transaction
 
 # Định nghĩa các Form (có thể di chuyển sang tệp forms.py riêng nếu dự án lớn hơn)
 
 # Form cho mô hình Book
-class BookForm(ModelForm):
+class BookForm(forms.ModelForm):
     class Meta:
         model = Book
         fields = '__all__' # Bao gồm tất cả các trường từ mô hình Book
 
 # Form cho mô hình Member
-class MemberForm(ModelForm):
+class MemberForm(forms.ModelForm):
     class Meta:
         model = Member
         fields = '__all__' # Bao gồm tất cả các trường từ mô hình Member
 
 # Form cho mô hình BorrowRecord
-class BorrowRecordForm(ModelForm):
+class BorrowRecordForm(forms.ModelForm):
     class Meta:
         model = BorrowRecord
         fields = ['book', 'member', 'due_date'] # Chỉ bao gồm các trường cần thiết cho việc mượn
 
+# Form cho việc trả sách
+class ReturnBookForm(forms.Form):
+    borrow_record = forms.ModelChoiceField(
+        queryset=BorrowRecord.objects.filter(return_date__isnull=True).order_by('member__name', 'book__title'),
+        label="Chọn lượt mượn để trả",
+        empty_label="-- Chọn sách và người mượn --",
+        widget=forms.Select(attrs={'class': 'block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50'})
+    )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Tùy chỉnh cách hiển thị cho mỗi lựa chọn trong danh sách
+        self.fields['borrow_record'].label_from_instance = lambda obj: f"{obj.book.title} - (Mượn bởi: {obj.member.name})"
 
 # New index view for dashboard
 @login_required # Thêm decorator này để yêu cầu đăng nhập
@@ -246,60 +260,44 @@ def borrow_book(request):
             messages.error(request, "Có lỗi xảy ra khi tạo phiếu mượn.")
     return render(request, 'library/borrow_book.html', {'form': form}) # Hiển thị form mượn sách
 
-# lịch sử mượn sách
-
-def borrow_book_view(request):
-    if request.method == 'POST':
-        book_id = request.POST.get('book')
-        member_id = request.POST.get('member')
-        book = get_object_or_404(Book, id=book_id)
-        member = get_object_or_404(Member, id=member_id)
-
-        if book.quantity > 0:
-            # Kiểm tra xem người dùng đã mượn sách này và chưa trả hay không
-            if not borrow_book.objects.filter(book=book, member=member, return_date__isnull=True).exists():
-                borrow_book.objects.create(book=book, member=member)
-                book.quantity -= 1
-                book.save()
-                messages.success(request, f'Member {member.name} has successfully borrowed {book.title}.')
-            else:
-                messages.error(request, f'Member {member.name} has already borrowed {book.title} and not returned it yet.')
-        else:
-            messages.error(request, 'This book is out of stock.')
-        return redirect('borrow_book')
-
-    books = Book.objects.filter(quantity__gt=0)
-    members = Member.objects.all()
-    # Lấy lịch sử mượn sách
-    borrowed_books_history = borrow_book.objects.all().order_by('-borrow_date')
-
-    context = {
-        'books': books,
-        'members': members,
-        'borrowed_books_history': borrowed_books_history, # Thêm vào context
-    }
-    return render(request, 'library/borrow_book.html', context)
-
-# Trả sách
-
-def return_book(request, pk):
-    borrow_record = get_object_or_404(BorrowRecord, pk=pk) # Lấy bản ghi mượn dựa trên pk
-    if request.method == 'POST':
-        if borrow_record.return_date is None: # Chỉ xử lý nếu sách chưa được trả
-            borrow_record.return_date = timezone.now().date() # Đặt ngày trả là ngày hiện tại
-            borrow_record.book.status = 0  # Đặt trạng thái sách về "có sẵn"
-            borrow_record.book.save()
-            borrow_record.save()
-            messages.success(request, f"Sách '{borrow_record.book.title}' đã được trả thành công.")
-        else:
-            messages.info(request, "Sách này đã được trả trước đó.")
-        return redirect('overdue_books') # Chuyển hướng đến trang sách quá hạn hoặc danh sách sách đã mượn
-    return render(request, 'library/return_books.html', {'borrow_record': borrow_record}) # Hiển thị trang xác nhận trả sách
-
-
 # Hiển thị danh sách các cuốn sách đã mượn quá hạn
 
 def overdue_books(request):
     # Lọc các bản ghi mượn mà chưa trả (return_date is null) và ngày hết hạn đã qua (due_date < ngày hiện tại)
     overdue_records = BorrowRecord.objects.filter(return_date__isnull=True, due_date__lt=timezone.now().date())
     return render(request, 'library/overdue_books.html', {'overdue_records': overdue_records}) # Hiển thị danh sách sách quá hạn
+
+# View trả sách đã được hợp nhất và cải tiến
+@transaction.atomic
+def return_book(request):
+    """
+    Xử lý logic cho việc trả sách, sử dụng form để chọn lượt mượn.
+    """
+    if request.method == 'POST':
+        form = ReturnBookForm(request.POST)
+        if form.is_valid():
+            borrow_record = form.cleaned_data['borrow_record']
+            
+            # 1. Đánh dấu là đã trả sách bằng cách cập nhật ngày trả
+            borrow_record.return_date = timezone.now()
+            borrow_record.save()
+            
+            # 2. Cập nhật trạng thái sách thành "có sẵn" (status = 0) để thống nhất logic
+            book = borrow_record.book
+            book.status = 0
+            book.save()
+            
+            messages.success(request, f"Đã trả sách '{book.title}' thành công!")
+            return redirect('book_list') # Chuyển hướng về trang danh sách sách
+    else:
+        form = ReturnBookForm()
+
+    # Nếu không có sách nào đang được mượn, hiển thị một thông báo thân thiện
+    if not form.fields['borrow_record'].queryset.exists():
+        messages.info(request, "Hiện tại không có sách nào đang được mượn để trả.")
+
+    context = {
+        'form': form,
+        'page_title': 'Trả Sách' # Thêm tiêu đề cho trang
+    }
+    return render(request, 'library/return_book_form.html', context)

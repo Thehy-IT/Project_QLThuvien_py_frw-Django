@@ -4,11 +4,6 @@
 
 
 + Cải thiện trải nghiệm người dùng và tính năng cốt lõi:
-    Trong danh sách sách tạo thêm 2 section: số sách còn lại và danh sách sách đã mượn.
-    Trong section mượn sách thêm section số sách đã mượn và thành viên mượn sách cùng ngày tháng năm.
-    Trong section sách đã mượn có hiển thị section cảnh báo thời gian hết hạn mượn sách.
-    Thêm nút trả sách nhanh trong thanh sidebar.
-    Responsive thanh sidebar khi hẹp màn hình chỉ hiển thị icon.
     Tạo lại giao diện đăng nhập/đăng ký.
 
 +Quản lý dữ liệu và tính năng phụ trợ:
@@ -21,6 +16,4 @@
 
 +Cải thiện thẩm mỹ và tính năng bổ sung:
     Thêm logo cho web.
-    Thêm vào trang chủ biểu đồ thể hiện... (cần làm rõ).
-    Thêm liên kết cho các session tổng kết.
     Thay đổi nền sau mỗi lần đăng nhập.

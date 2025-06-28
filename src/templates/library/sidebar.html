@@ -32,7 +32,12 @@
                     <span class="text-base">Mượn sách</span>
                 </a>
             </li>
-<!-- chức năng trả sách chưa hoàn thành -->
+            <li>
+                <a href="{% url 'return_book' %}" class="flex items-center px-4 py-2 rounded-md hover:bg-blue-900 hover:pl-6 transition-all duration-300">
+                    <i class="fas fa-undo-alt mr-3 text-lg"></i>
+                    <span class="text-base">Trả sách</span>
+                </a>
+            </li>
             <li>
                 <a href="{% url 'overdue_books' %}" class="flex items-center px-4 py-2 rounded-md hover:bg-blue-900 hover:pl-6 transition-all duration-300">
                     <i class="fas fa-exclamation-triangle mr-3 text-lg"></i>

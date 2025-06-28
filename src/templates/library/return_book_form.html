@@ -1,0 +1,24 @@
+{% extends "library/base.html" %}
+
+{% block title %}Trả Sách{% endblock %}
+
+{% block content %}
+<h2 class="text-2xl font-semibold mb-4">Trả Sách</h2>
+
+<form method="post" class="bg-white p-6 rounded-lg shadow-md">
+    {% csrf_token %}
+    <div class="mb-4">
+        <label for="{{ form.borrow_record.id_for_label }}" class="block text-gray-700 text-sm font-bold mb-2">{{ form.borrow_record.label }}:</label>
+        {{ form.borrow_record }}
+        {% for error in form.borrow_record.errors %}
+            <p class="text-red-500 text-xs italic">{{ error }}</p>
+        {% endfor %}
+    </div>
+    <div class="flex justify-end mt-6">
+        <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Xác nhận trả</button>
+        <a href="{% url 'book_list' %}" class="ml-4 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded">Hủy</a>
+    </div>
+</form>
+{% endblock %}
+
+nhanh

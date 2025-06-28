@@ -19,6 +19,7 @@ urlpatterns = [
 
     # Các URL cho việc Mượn/Trả sách
     path('borrow/', views.borrow_book, name='borrow_book'), # Trang mượn sách
-    path('return/<int:pk>/', views.return_book, name='return_book'), # Trả sách theo ID của bản ghi mượn (pk)
+    path('return/', views.return_book, name='return_book'), # Trang trả sách
     path('overdue/', views.overdue_books, name='overdue_books'), # Danh sách sách quá hạn
+
 ]
