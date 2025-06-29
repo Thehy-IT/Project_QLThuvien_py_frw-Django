@@ -7,6 +7,7 @@ from django.db.models import Q, Min, Max
 from .models import Book, Member, BorrowRecord
 from django.db import transaction
 
+
 # Định nghĩa các Form (có thể di chuyển sang tệp forms.py riêng nếu dự án lớn hơn)
 
 # Form cho mô hình Book
@@ -182,8 +183,13 @@ def book_search(request):
 # Hiển thị danh sách thành viên
 
 def member_list(request):
-    members = Member.objects.all() # Lấy tất cả thành viên
-    return render(request, 'library/member_list.html', {'members': members})
+    members = Member.objects.all()  # Lấy tất cả thành viên
+    form = MemberForm()  # Tạo một instance của form để truyền cho modal
+    context = {
+        'members': members,
+        'form': form,  # Thêm form vào context
+    }
+    return render(request, 'library/member_list.html', context)
 
 # Tạo thành viên mới
 
@@ -228,12 +234,17 @@ def member_delete(request, pk):
 
 def member_search(request):
     query = request.GET.get('q')
-    members = Member.objects.all()
+    members = Member.objects.all() # Bắt đầu với tất cả thành viên
     if query:
         # Lọc thành viên theo tên hoặc ID thành viên
         members = members.filter(name__icontains=query) | \
                 members.filter(member_id__icontains=query)
-    return render(request, 'library/member_list.html', {'members': members, 'query': query})
+    
+    form = MemberForm() # Cũng cần form cho trang kết quả tìm kiếm
+    context = {
+        'members': members, 'query': query, 'form': form
+    }
+    return render(request, 'library/member_list.html', context)
 
 
 # Các View Quản lý Mượn/Trả Sách
