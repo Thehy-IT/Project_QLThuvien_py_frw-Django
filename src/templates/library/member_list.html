@@ -42,10 +42,22 @@
             <tr>
                 <td class="py-2 px-4 border-b text-center">{{ member.member_id }}</td>
                 <td class="py-2 px-4 border-b">{{ member.name }}</td>
-                <td class="py-2 px-4 border-b text-center">
-                    {# Nút sửa và xóa thành viên #}
-                    <a href="{% url 'member_update' member.pk %}" class="text-yellow-600 hover:text-yellow-800 mr-2">Sửa</a>
-                    <a href="{% url 'member_delete' member.pk %}" class="text-red-600 hover:text-red-800">Xóa</a>
+                <td class="py-2 px-4 border-b">
+                    <div class="flex items-center justify-center space-x-2">
+                        {# Nút Sửa với icon #}
+                        <a href="{% url 'member_update' member.pk %}" class="text-yellow-600 hover:text-yellow-800 p-1 rounded-full hover:bg-yellow-100 transition-colors duration-200" title="Sửa thành viên">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z" />
+                                <path fill-rule="evenodd" d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" clip-rule="evenodd" />
+                            </svg>
+                        </a>
+                        {# Nút Xóa với icon #}
+                        <a href="{% url 'member_delete' member.pk %}" class="text-red-600 hover:text-red-800 p-1 rounded-full hover:bg-red-100 transition-colors duration-200" title="Xóa thành viên">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm4 0a1 1 0 012 0v6a1 1 0 11-2 0V8z" clip-rule="evenodd" />
+                            </svg>
+                        </a>
+                    </div>
                 </td>
             </tr>
             {% empty %} {# Nếu không có thành viên nào #}
