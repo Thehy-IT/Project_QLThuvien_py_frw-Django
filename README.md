@@ -51,3 +51,17 @@ python manage.py runserver
 ## Thực hiện bởi:
 - Sinh viên: Huỳnh Thế Hy
 - Năm học: 2024-2025 <năm 2>
+
+## Phần cần phát triển thêm
+- Cải thiện giao diện người dùng:
+    tạo giao diện đăng nhập/đăng ký.
+    trực quan hóa biểu đồ thống kê sách, thành viên riêng.
+    chuyển trang thêm sách thành modal thêm sách.
+    Sửa lỗi modal sửa sách trong trang quản lý sách.
+    Hoàn thiện lịch sử thao tác với sách.
+    đổi input chọn thành input ghi có gợi ý chọn trong phần chọn sách/thành viên của phần mượn sách.<cải thiện form mượn sách với đầy đủ thông tin hơn.>
+    Gợi ý bảng chọn ngày trong ô chọn ngày mượn/trả sách.
+    Hoàn thành lịch sử mượn sách
+    thay trang trả sách thành modal trả sách nhanh.
+    Hiển thị những lịch sử sách quá hạn.
+    Tạo lịch sử thêm xóa sửa thành viên.

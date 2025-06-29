@@ -16,59 +16,59 @@
     {# Dùng CSS Grid để các thẻ tự sắp xếp trên các màn hình khác nhau (responsive) #}
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
         {# Thẻ thống kê: Tổng số Sách #}
-        <div class="bg-white p-5 rounded-xl shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex items-center space-x-4">
+        <a href="{% url 'book_list' %}" class="bg-white p-5 rounded-xl shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex items-center space-x-4 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500">
             <div class="bg-sky-100 text-sky-600 p-4 rounded-full">
-                <i class="fas fa-book text-2xl"></i>
+                <i class="fas fa-book text-2xl" aria-hidden="true"></i>
             </div>
             <div>
                 <h3 class="text-sm font-medium text-gray-500">Tổng số Sách</h3>
                 <p class="text-2xl font-bold text-gray-800 mt-1">{{ total_books|default:0 }}</p>
             </div>
-        </div>
+        </a>
 
-        {# Thẻ thống kê: Sách đang Mượn #}
-        <div class="bg-white p-5 rounded-xl shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex items-center space-x-4">
+        {# Thẻ thống kê: Sách đang Mượn -> liên kết đến danh sách sách đã mượn #}
+        <a href="{% url 'book_list' %}?status=1" class="bg-white p-5 rounded-xl shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex items-center space-x-4 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500">
             <div class="bg-emerald-100 text-emerald-600 p-4 rounded-full">
-                <i class="fas fa-hand-holding-usd text-2xl"></i>
+                <i class="fas fa-hand-holding-usd text-2xl" aria-hidden="true"></i>
             </div>
             <div>
                 <h3 class="text-sm font-medium text-gray-500">Sách đang Mượn</h3>
                 <p class="text-2xl font-bold text-gray-800 mt-1">{{ borrowed_books|default:0 }}</p>
             </div>
-        </div>
+        </a>
 
-        {# Thẻ thống kê: Sách còn lại #}
-        <div class="bg-white p-5 rounded-xl shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex items-center space-x-4">
+        {# Thẻ thống kê: Sách còn lại -> liên kết đến danh sách sách có sẵn #}
+        <a href="{% url 'book_list' %}?status=0" class="bg-white p-5 rounded-xl shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex items-center space-x-4 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500">
             <div class="bg-amber-100 text-amber-600 p-4 rounded-full">
-                <i class="fas fa-book-open text-2xl"></i>
+                <i class="fas fa-book-open text-2xl" aria-hidden="true"></i>
             </div>
             <div>
                 <h3 class="text-sm font-medium text-gray-500">Sách còn lại</h3>
                 <p class="text-2xl font-bold text-gray-800 mt-1">{{ available_books|default:0 }}</p>
             </div>
-        </div>
+        </a>
 
-        {# Thẻ thống kê: Tổng số Thành viên #}
-        <div class="bg-white p-5 rounded-xl shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex items-center space-x-4">
+        {# Thẻ thống kê: Tổng số Thành viên -> liên kết đến trang quản lý thành viên #}
+        <a href="{% url 'member_list' %}" class="bg-white p-5 rounded-xl shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex items-center space-x-4 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-violet-500">
             <div class="bg-violet-100 text-violet-600 p-4 rounded-full">
-                <i class="fas fa-users text-2xl"></i>
+                <i class="fas fa-users text-2xl" aria-hidden="true"></i>
             </div>
             <div>
                 <h3 class="text-sm font-medium text-gray-500">Tổng số Thành viên</h3>
                 <p class="text-2xl font-bold text-gray-800 mt-1">{{ total_members|default:0 }}</p>
             </div>
-        </div>
+        </a>
 
-        {# Thẻ thống kê: Sách quá hạn #}
-        <div class="bg-white p-5 rounded-xl shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex items-center space-x-4">
+        {# Thẻ thống kê: Sách quá hạn -> liên kết đến trang sách quá hạn #}
+        <a href="{% url 'overdue_books' %}" class="bg-white p-5 rounded-xl shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex items-center space-x-4 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-rose-500">
             <div class="bg-rose-100 text-rose-600 p-4 rounded-full">
-                <i class="fas fa-exclamation-triangle text-2xl"></i>
+                <i class="fas fa-exclamation-triangle text-2xl" aria-hidden="true"></i>
             </div>
             <div>
                 <h3 class="text-sm font-medium text-gray-500">Sách quá hạn</h3>
                 <p class="text-2xl font-bold text-gray-800 mt-1">{{ overdue_books_count|default:0 }}</p>
             </div>
-        </div>
+        </a>
     </div>
 
     {# Khu vực biểu đồ thống kê #}
