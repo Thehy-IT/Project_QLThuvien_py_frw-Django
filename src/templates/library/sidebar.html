@@ -1,10 +1,14 @@
+{% load static %}
 <!-- BẮT ĐẦU SIDEBAR -->
 <aside class="w-64 bg-gradient-to-b from-blue-500 to-blue-800 text-white flex flex-col p-4 h-screen fixed left-0 top-0 shadow-lg z-1000">
     <!-- Sidebar cố định bên trái, full chiều cao, đổ bóng, nền gradient -->
 
     <!-- TIÊU ĐỀ / LOGO -->
-    <div class="text-2xl font-extrabold text-center mb-8 mt-6 tracking-wide">
-        <a href="{% url 'index' %}" class="hover:opacity-80 transition duration-300">Booktok Library</a>
+    <div class="mb-8 mt-4">
+        <a href="{% url 'index' %}" class="flex flex-col items-center text-center hover:opacity-80 transition duration-300">
+            <img src="{% static 'images/logo.png' %}" alt="Booktok Library Logo" class="h-16 w-auto">
+            <span class="text-xl font-extrabold mt-2 tracking-wide">Booktok Library</span>
+        </a>
     </div>
 
     <!-- NAVIGATION CHÍNH -->
