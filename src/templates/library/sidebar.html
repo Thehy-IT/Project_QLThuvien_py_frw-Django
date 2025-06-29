@@ -1,13 +1,13 @@
 {% load static %}
 <!-- BẮT ĐẦU SIDEBAR -->
-<aside class="w-64 bg-gradient-to-b from-blue-500 to-blue-800 text-white flex flex-col p-4 h-screen fixed left-0 top-0 shadow-lg z-1000">
+<aside class="w-20 hover:w-64 lg:w-64 bg-gradient-to-b from-blue-500 to-blue-800 text-white flex flex-col p-4 h-screen fixed left-0 top-0 shadow-lg z-1000 group transition-all duration-300 ease-in-out overflow-hidden">
     <!-- Sidebar cố định bên trái, full chiều cao, đổ bóng, nền gradient -->
 
     <!-- TIÊU ĐỀ / LOGO -->
     <div class="mb-8 mt-4">
         <a href="{% url 'index' %}" class="flex flex-col items-center text-center hover:opacity-80 transition duration-300">
             <img src="{% static 'images/logo.png' %}" alt="Booktok Library Logo" class="h-16 w-auto">
-            <span class="text-xl font-extrabold mt-2 tracking-wide">Booktok Library</span>
+            <span class="text-xl font-extrabold mt-2 tracking-wide hidden group-hover:block lg:block">Booktok Library</span>
         </a>
     </div>
 
@@ -17,41 +17,41 @@
             <hr class="border-white-500">
 
             <li>
-                <a href="{% url 'index' %}" class="flex items-center px-4 py-2 rounded-md hover:bg-blue-900 hover:pl-6 transition-all duration-300">
+                <a href="{% url 'index' %}" class="flex items-center px-4 py-2 rounded-md hover:bg-blue-900 transition-all duration-300">
                     <i class="fas fa-home mr-3 text-lg"></i>
-                    <span class="text-base">Trang chủ</span>
+                    <span class="text-base hidden group-hover:inline lg:inline">Trang chủ</span>
                 </a>
             </li>
 
             <li>
-                <a href="{% url 'book_list' %}" class="flex items-center px-4 py-2 rounded-md hover:bg-blue-900 hover:pl-6 transition-all duration-300">
+                <a href="{% url 'book_list' %}" class="flex items-center px-4 py-2 rounded-md hover:bg-blue-900 transition-all duration-300">
                     <i class="fas fa-book mr-3 text-lg"></i>
-                    <span class="text-base">Sách</span>
+                    <span class="text-base hidden group-hover:inline lg:inline">Sách</span>
                 </a>
             </li>
 
             <li>
-                <a href="{% url 'borrow_book' %}" class="flex items-center px-4 py-2 rounded-md hover:bg-blue-900 hover:pl-6 transition-all duration-300">
+                <a href="{% url 'borrow_book' %}" class="flex items-center px-4 py-2 rounded-md hover:bg-blue-900 transition-all duration-300">
                     <i class="fas fa-hand-holding-usd mr-3 text-lg"></i>
-                    <span class="text-base">Mượn sách</span>
+                    <span class="text-base hidden group-hover:inline lg:inline">Mượn sách</span>
                 </a>
             </li>
             <li>
-                <a href="{% url 'return_book' %}" class="flex items-center px-4 py-2 rounded-md hover:bg-blue-900 hover:pl-6 transition-all duration-300">
+                <a href="{% url 'return_book' %}" class="flex items-center px-4 py-2 rounded-md hover:bg-blue-900 transition-all duration-300">
                     <i class="fas fa-undo-alt mr-3 text-lg"></i>
-                    <span class="text-base">Trả sách</span>
+                    <span class="text-base hidden group-hover:inline lg:inline">Trả sách</span>
                 </a>
             </li>
             <li>
-                <a href="{% url 'overdue_books' %}" class="flex items-center px-4 py-2 rounded-md hover:bg-blue-900 hover:pl-6 transition-all duration-300">
+                <a href="{% url 'overdue_books' %}" class="flex items-center px-4 py-2 rounded-md hover:bg-blue-900 transition-all duration-300">
                     <i class="fas fa-exclamation-triangle mr-3 text-lg"></i>
-                    <span class="text-base">Sách quá hạn</span>
+                    <span class="text-base hidden group-hover:inline lg:inline">Sách quá hạn</span>
                 </a>
             </li>
             <li>
-                <a href="{% url 'member_list' %}" class="flex items-center px-4 py-2 rounded-md hover:bg-blue-900 hover:pl-6 transition-all duration-300">
+                <a href="{% url 'member_list' %}" class="flex items-center px-4 py-2 rounded-md hover:bg-blue-900 transition-all duration-300">
                     <i class="fas fa-users mr-3 text-lg"></i>
-                    <span class="text-base">Thành viên</span>
+                    <span class="text-base hidden group-hover:inline lg:inline">Thành viên</span>
                 </a>
             </li>
 
