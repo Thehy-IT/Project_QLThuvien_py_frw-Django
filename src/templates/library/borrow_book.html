@@ -118,6 +118,19 @@
 {% endblock %}
 
 {% block extra_scripts %}
+<style>
+    /*
+     * Tùy chỉnh CSS cho Flatpickr Calendar
+     * Mục đích: Tăng độ rõ nét (giảm độ trong suốt) của các ngày tháng để dễ nhìn hơn.
+    */
+
+    /* Tăng độ rõ nét cho các ngày của tháng trước và tháng sau */
+    .flatpickr-calendar .flatpickr-day.prevMonthDay,
+    .flatpickr-calendar .flatpickr-day.nextMonthDay {
+        opacity: 1 !important; /* Tăng giá trị opacity để số đỡ mờ (mặc định là ~0.35) */
+        color: #3c4552 !important; /* Có thể chỉnh màu chữ đậm hơn một chút nếu cần */
+    }
+</style>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         // Lưu ý: Đoạn mã này giả định ID của các trường trong form là 'id_book' và 'id_member'.
