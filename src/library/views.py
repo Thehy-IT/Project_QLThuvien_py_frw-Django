@@ -279,36 +279,49 @@ def overdue_books(request):
     return render(request, 'library/overdue_books.html', {'overdue_records': overdue_records}) # Hiển thị danh sách sách quá hạn
 
 # View trả sách đã được hợp nhất và cải tiến
-@transaction.atomic
 def return_book(request):
     """
-    Xử lý logic cho việc trả sách, sử dụng form để chọn lượt mượn.
+    Xử lý yêu cầu trả sách trực tiếp từ modal.
+    Tìm bản ghi mượn dựa trên ID phiếu mượn hoặc ID sách và cập nhật trạng thái.
     """
     if request.method == 'POST':
-        form = ReturnBookForm(request.POST)
-        if form.is_valid():
-            borrow_record = form.cleaned_data['borrow_record']
-            
-            # 1. Đánh dấu là đã trả sách bằng cách cập nhật ngày trả
-            borrow_record.return_date = timezone.now()
-            borrow_record.save()
-            
-            # 2. Cập nhật trạng thái sách thành "có sẵn" (status = 0) để thống nhất logic
-            book = borrow_record.book
-            book.status = 0
-            book.save()
-            
-            messages.success(request, f"Đã trả sách '{book.title}' thành công!")
-            return redirect('book_list') # Chuyển hướng về trang danh sách sách
-    else:
-        form = ReturnBookForm()
+        identifier = request.POST.get('identifier', '').strip()
 
-    # Nếu không có sách nào đang được mượn, hiển thị một thông báo thân thiện
-    if not form.fields['borrow_record'].queryset.exists():
-        messages.info(request, "Hiện tại không có sách nào đang được mượn để trả.")
+        if not identifier:
+            messages.error(request, 'Vui lòng nhập mã phiếu mượn hoặc mã sách.')
+            # Quay lại trang trước đó, thông báo lỗi sẽ hiển thị
+            return redirect(request.META.get('HTTP_REFERER', 'index'))
 
-    context = {
-        'form': form,
-        'page_title': 'Trả Sách' # Thêm tiêu đề cho trang
-    }
-    return render(request, 'library/return_book_form.html', context)
+        try:
+            # Tìm bản ghi mượn chưa được trả dựa trên mã phiếu mượn (ID) hoặc mã sách.
+            # Giả định model Book của bạn có một trường định danh duy nhất là `book_id`.
+            # Nếu tên trường khác, bạn hãy cập nhật lại `book__book_id`.
+            borrow_record = BorrowRecord.objects.filter(
+                (Q(id__iexact=identifier) | Q(book__book_id__iexact=identifier)) & Q(return_date__isnull=True)
+            ).first()
+
+            if borrow_record:
+                # Cập nhật thông tin trả sách
+                borrow_record.return_date = timezone.now()
+                
+                # Cập nhật trạng thái sách là "có sẵn"
+                book = borrow_record.book
+                book.is_available = True
+                book.save()
+                
+                borrow_record.save()
+                
+                messages.success(request, f'Đã trả thành công sách "{book.title}".')
+                # Chuyển hướng đến trang sách quá hạn để người dùng có thể thấy sự thay đổi
+                return redirect('overdue_books')
+            else:
+                messages.error(request, 'Không tìm thấy phiếu mượn hợp lệ hoặc sách đang được mượn với mã này.')
+                return redirect(request.META.get('HTTP_REFERER', 'index'))
+
+        except (ValueError, TypeError):
+            # Xảy ra khi identifier không hợp lệ cho việc truy vấn
+            messages.error(request, 'Mã cung cấp không hợp lệ. Vui lòng kiểm tra lại.')
+            return redirect(request.META.get('HTTP_REFERER', 'index'))
+
+    # Nếu truy cập bằng phương thức GET, chuyển hướng về trang chủ
+    return redirect('index')

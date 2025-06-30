@@ -33,6 +33,11 @@
 
     <!-- Custom styles for Tom Select -->
     <style>
+        /* --- Alpine.js x-cloak helper --- */
+        [x-cloak] {
+            display: none !important;
+        }
+
         /* --- Tùy chỉnh viền và giao diện cho ô tìm kiếm --- */
         .ts-control {
             border: 1px solid #D1D5DB !important; /* Tương đương class 'border-gray-300' của Tailwind */
@@ -56,7 +61,7 @@
     </style>
 </head>
 
-<body class="bg-gray-100 min-h-screen font-[Inter] text-gray-800" x-data="{ sidebarOpen: false }">
+<body class="bg-gray-100 min-h-screen font-[Inter] text-gray-800" x-data="{ sidebarOpen: false, returnModalOpen: false }">
     <!-- Wrapper dùng AlpineJS để toggle sidebar -->
     <div class="flex min-h-screen">
 
