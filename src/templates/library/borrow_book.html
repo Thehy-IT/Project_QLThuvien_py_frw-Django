@@ -22,9 +22,18 @@
                     {% for field in form %}
                         <div class="space-y-2">
                             <label for="{{ field.id_for_label }}" class="block text-sm font-medium text-gray-700">{{ field.label }}</label>
-                            {# Giả sử form field đã được thêm class CSS từ forms.py #}
-                            {# Ví dụ: field.widget.attrs.update({'class': 'w-full ...'}) #}
-                            {{ field }}
+                            
+                            {% if field.name == 'due_date' %}
+                                <div class="relative">
+                                    {{ field }}
+                                    <div id="datepicker-icon" class="absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer" title="Chọn ngày">
+                                        <i class="fas fa-calendar-alt text-gray-400 hover:text-blue-600 transition-colors"></i>
+                                    </div>
+                                </div>
+                            {% else %}
+                                {{ field }}
+                            {% endif %}
+
                             {% if field.help_text %}
                                 <p class="text-xs text-gray-500">{{ field.help_text }}</p>
                             {% endif %}
@@ -112,7 +121,7 @@
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         // Lưu ý: Đoạn mã này giả định ID của các trường trong form là 'id_book' và 'id_member'.
-        // Nếu đặt tên khác trong forms.py, hãy cập nhật ID tương ứng phía dưới.
+        // Nếu bạn đặt tên khác trong forms.py, hãy cập nhật ID tương ứng phía dưới.
 
         // Khởi tạo Tom Select cho trường chọn Sách
         const bookSelect = document.getElementById('id_book');
@@ -129,6 +138,35 @@
             new TomSelect(memberSelect, {
                 placeholder: 'Tìm kiếm và chọn thành viên...',
                 create: false, // Không cho phép người dùng tạo lựa chọn mới
+            });
+        }
+
+        // Khởi tạo Flatpickr cho trường chọn Ngày Hết Hạn
+        // Giả định ID của trường là 'id_due_date'
+        const dueDateInput = document.getElementById('id_due_date');
+        const icon = document.getElementById('datepicker-icon');
+
+        if (dueDateInput && icon) {
+            // Thay đổi type của input để tránh xung đột với date picker mặc định của trình duyệt
+            dueDateInput.type = 'text'; 
+            // Lưu instance của Flatpickr vào biến `fp` để có thể gọi các phương thức của nó
+            const fp = flatpickr(dueDateInput, {
+                allowInput: true,    // Cho phép người dùng nhập ngày tháng trực tiếp
+                clickOpens: false,   // Ngăn không cho modal mở khi nhấn vào ô input
+                altInput: true,      // Hiển thị định dạng thân thiện cho người dùng
+                altFormat: "d-m-Y",  // Định dạng hiển thị (ngày-tháng-năm)
+                dateFormat: "Y-m-d", // Định dạng gửi về server (chuẩn của Django)
+                placeholder: "Nhập hoặc chọn ngày hết hạn...",
+                minDate: "today",    // Không cho phép chọn ngày trong quá khứ
+                locale: "vn",        // Sử dụng ngôn ngữ Tiếng Việt
+                // Đây là thay đổi chính: Yêu cầu Flatpickr định vị modal theo icon.
+                // Modal sẽ xuất hiện ngay bên dưới icon thay vì bên dưới ô input.
+                positionElement: icon
+            });
+
+            // Thêm sự kiện click cho icon để mở modal
+            icon.addEventListener('click', function() {
+                fp.open(); // Mở modal lịch một cách thủ công
             });
         }
     });
