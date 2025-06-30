@@ -8,7 +8,6 @@
     <!-- Form Mượn Sách -->
     <div class="bg-white p-8 rounded-xl shadow-lg border border-gray-200">
         <div class="flex items-center gap-4 mb-6">
-            <i class="fas fa-hand-holding-heart text-3xl text-blue-500"></i>
             <h2 class="text-2xl font-bold text-gray-800">Mượn Sách</h2>
         </div>
 
@@ -50,7 +49,6 @@
     <!-- Lịch Sử Mượn Sách -->
     <div class="bg-white p-8 rounded-xl shadow-lg border border-gray-200">
         <div class="flex items-center gap-4 mb-6">
-            <i class="fas fa-history text-3xl text-green-500"></i>
             <h3 class="text-2xl font-bold text-gray-800">Lịch Sử Mượn Sách</h3>
         </div>
         <div class="overflow-x-auto">
@@ -108,4 +106,31 @@
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Lưu ý: Đoạn mã này giả định ID của các trường trong form là 'id_book' và 'id_member'.
+        // Nếu đặt tên khác trong forms.py, hãy cập nhật ID tương ứng phía dưới.
+
+        // Khởi tạo Tom Select cho trường chọn Sách
+        const bookSelect = document.getElementById('id_book');
+        if (bookSelect) {
+            new TomSelect(bookSelect, {
+                placeholder: 'Tìm kiếm và chọn sách...',
+                create: false, // Không cho phép người dùng tạo lựa chọn mới
+            });
+        }
+
+        // Khởi tạo Tom Select cho trường chọn Thành viên
+        const memberSelect = document.getElementById('id_member');
+        if (memberSelect) {
+            new TomSelect(memberSelect, {
+                placeholder: 'Tìm kiếm và chọn thành viên...',
+                create: false, // Không cho phép người dùng tạo lựa chọn mới
+            });
+        }
+    });
+</script>
 {% endblock %}

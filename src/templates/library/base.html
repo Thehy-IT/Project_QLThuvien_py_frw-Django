@@ -24,6 +24,33 @@
 
     <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <!-- Tom Select for searchable dropdowns -->
+    <link href="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/css/tom-select.bootstrap5.min.css" rel="stylesheet">
+
+    <!-- Custom styles for Tom Select -->
+    <style>
+        /* --- Tùy chỉnh viền và giao diện cho ô tìm kiếm --- */
+        .ts-control {
+            border: 1px solid #D1D5DB !important; /* Tương đương class 'border-gray-300' của Tailwind */
+            border-radius: 0.5rem !important;     /* Tương đương class 'rounded-lg' */
+            padding-top: 0.5rem !important;
+            padding-bottom: 0.5rem !important;
+            transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        }
+
+        /* Hiệu ứng khi focus (nhấp vào) ô tìm kiếm */
+        .ts-control.focus {
+            border-color: #2563EB !important; /* Tương đương 'border-blue-600' */
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3) !important; /* Hiệu ứng 'focus:ring' */
+        }
+
+        /* --- Tùy chỉnh độ trong suốt cho danh sách thả xuống --- */
+        .ts-dropdown {
+            background-color: rgba(255, 255, 255, 0.9) !important;
+            backdrop-filter: blur(5px);
+        }
+    </style>
 </head>
 
 <body class="bg-gray-100 min-h-screen font-[Inter] text-gray-800" x-data="{ sidebarOpen: false }">
@@ -52,6 +79,10 @@
             </main>
         </div>
     </div>
+
+    <!-- Tom Select JS -->
+    <script src="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/js/tom-select.complete.min.js"></script>
+    {% block extra_scripts %}{% endblock %}
 </body>
 
 </html>
