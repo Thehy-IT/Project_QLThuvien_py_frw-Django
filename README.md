@@ -30,6 +30,25 @@
 - Mượn sách, trả sách
 - Hiển thị danh sách các cuốn sách đã mượn quá hạn (kèm thông tin người mượn)
 
+## Ảnh giới thiệu hệ thống
+trang chủ:
+![Trang chủ](/src/static/images/trangchu.png)
+quản lý sách:
+![Quản lý sách](/src/static/images/quanlysach.png)
+lọc sách:
+![Lọc sách](/src/static/images/locsach.png)
+quản lý thành viên:
+![Quản lý thành viên](/src/static/images/thanhvinen.png)
+thêm thành viên:
+![Thêm thành viên](/src/static/images/themthanhvien.png)
+mượn sách:
+![Mượn sách](/src/static/images/muonsach.png)
+trả sách nhanh:
+![Trả sách nhanh](/src/static/images/trasach.png)
+mượn quá hạn:
+![Mượn quá hạn](/src/static/images/muonquahan.png)
+
+
 # Hướng dẫn RunApp
 ## installing dependancies
 
@@ -59,7 +78,5 @@ python manage.py runserver
     - Hoàn thiện tất cả các thẻ lịch sử.
     + tạo id tự động cho mỗi phần mẫu đăng ký mượn sách.
     + tạo id tự động cho mỗi form cần ID với số ID là só tiếp theo số đã có.
-    + cải thiện giao diện layout khi hộp thoại modal trả sách xuất hiện thì có 1 số thành phần không mờ đi theo nền mà nổi như modal.
     + Cập nhật trạng thái sách trong quản lý sách khi nhấn trả sách thành công.
     + Phân trang cho danh sách sách, thành viên, lịch sử mượn sách.
-
