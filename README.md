@@ -54,13 +54,12 @@ python manage.py runserver
 
 ## Phần cần phát triển thêm
 - Cải thiện giao diện người dùng:
-    + tạo giao diện đăng nhập/đăng ký.
-    + trực quan hóa biểu đồ thống kê sách, thành viên riêng.
-    + Hoàn thiện tất cả các thẻ lịch sử.
-    + tạo id cho mỗi phần mẫu đăng ký mượn sách.
+    - tạo giao diện đăng nhập/đăng ký.
+    - trực quan hóa biểu đồ thống kê sách, thành viên riêng.
+    - Hoàn thiện tất cả các thẻ lịch sử.
+    + tạo id tự động cho mỗi phần mẫu đăng ký mượn sách.
     + tạo id tự động cho mỗi form cần ID với số ID là só tiếp theo số đã có.
     + cải thiện giao diện layout khi hộp thoại modal trả sách xuất hiện thì có 1 số thành phần không mờ đi theo nền mà nổi như modal.
-    + thay đổi mã sách thành số ID của sách trong modal trả sách
     + Cập nhật trạng thái sách trong quản lý sách khi nhấn trả sách thành công.
     + Phân trang cho danh sách sách, thành viên, lịch sử mượn sách.
 
